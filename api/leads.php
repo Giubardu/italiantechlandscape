@@ -10,9 +10,16 @@ const LEADS_TO = ['max@latechmadeinitaly.com', 'floriana@latechmadeinitaly.com',
 const LEADS_FROM = 'noreply@italiantechlandscape.com';
 const LEADS_FROM_NAME = 'Italian Tech Landscape';
 const MAX = ['name' => 80, 'email' => 254, 'company' => 120, 'role' => 120, 'message' => 2000];
+const ALLOWED_ORIGINS = ['https://italiantechlandscape.com'];
+// Flood protection: per visitor, and for the whole site, so the team inbox can't be spammed
+const LIMIT_PER_IP = 5;       // submissions per IP...
+const LIMIT_WINDOW = 600;     // ...per 10 minutes
+const LIMIT_GLOBAL = 60;      // submissions per hour in total
 
+ini_set('display_errors', '0');
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
+header('X-Content-Type-Options: nosniff');
 
 function reply($status, $data) {
   http_response_code($status);
@@ -30,11 +37,35 @@ function oneline($s) {
   return trim(preg_replace('/[\r\n]+/', ' ', $s));
 }
 
+// Counts hits for $key inside a sliding window, in the system temp dir (outside the website folder)
+function over_limit($key, $max, $window) {
+  $file = sys_get_temp_dir() . '/itl-leads-' . hash('sha256', $key . __FILE__);
+  $fh = @fopen($file, 'c+');
+  if (!$fh) return false;
+  flock($fh, LOCK_EX);
+  $now = time();
+  $hits = array_filter(array_map('intval', explode(',', stream_get_contents($fh))), fn($t) => $t > $now - $window);
+  $blocked = count($hits) >= $max;
+  if (!$blocked) $hits[] = $now;
+  ftruncate($fh, 0); rewind($fh); fwrite($fh, implode(',', $hits));
+  flock($fh, LOCK_UN); fclose($fh);
+  return $blocked;
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') reply(405, ['ok' => false, 'error' => 'method']);
+// Only the site's own pages may post here (browsers always send Origin on fetch POSTs)
+if (!in_array($_SERVER['HTTP_ORIGIN'] ?? '', ALLOWED_ORIGINS, true)) reply(403, ['ok' => false, 'error' => 'origin']);
+// JSON only: a cross-site form can't send this content type without a CORS preflight, which we never grant
+if (stripos($_SERVER['CONTENT_TYPE'] ?? '', 'application/json') !== 0) reply(415, ['ok' => false, 'error' => 'type']);
+$ip = $_SERVER['REMOTE_ADDR'] ?? '';
+if (over_limit('ip:' . $ip, LIMIT_PER_IP, LIMIT_WINDOW) || over_limit('global', LIMIT_GLOBAL, 3600)) reply(429, ['ok' => false, 'error' => 'rate']);
 
 $raw = file_get_contents('php://input', false, null, 0, 20000);
 $body = json_decode($raw, true);
 if (!is_array($body)) reply(400, ['ok' => false, 'error' => 'invalid-json']);
+
+// Honeypot: a hidden field people never fill. Bots get a normal-looking answer and nothing is sent.
+if (trim((string) ($body['website'] ?? '')) !== '') reply(200, ['ok' => true]);
 
 $type = $body['type'] ?? '';
 $email = clean($body['email'] ?? '', MAX['email']);

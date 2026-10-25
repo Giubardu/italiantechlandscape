@@ -1,7 +1,9 @@
 # italiantechlandscape.com (OVH web hosting, deployed from GitHub)
 
-DirectoryIndex index-v4.html
+# English page at /, Italian page at /it/
+DirectoryIndex index-v4.html index.html
 Options -Indexes
+AddDefaultCharset utf-8
 
 RewriteEngine On
 
@@ -13,10 +15,28 @@ RewriteRule ^ https://italiantechlandscape.com%{REQUEST_URI} [R=301,L]
 # The page is served at /; send direct hits on the file there too (THE_REQUEST avoids a loop with DirectoryIndex)
 RewriteCond %{THE_REQUEST} \s/index-v4\.html[\s?]
 RewriteRule ^index-v4\.html$ https://italiantechlandscape.com/ [R=301,L]
+RewriteCond %{THE_REQUEST} \s/it/index\.html[\s?]
+RewriteRule ^it/index\.html$ https://italiantechlandscape.com/it/ [R=301,L]
+RewriteRule ^it$ https://italiantechlandscape.com/it/ [R=301,L]
 
-# Never serve repository files
-RedirectMatch 404 /\.git
-RedirectMatch 404 /\.gitignore$
+# Never serve repository or tooling files: dotfiles (.git, .gitignore, .htaccess), build scripts, docs
+# (/.well-known stays reachable: OVH uses it to renew the SSL certificate)
+RedirectMatch 404 /\.(?!well-known/)
+RedirectMatch 404 ^/tools/
+RedirectMatch 404 \.(py|md|sh|lock|log|bak|sql)$
+
+<IfModule mod_headers.c>
+  # Content Security Policy: only this site's own scripts, fonts, images and endpoints.
+  # Inline style attributes are used for layout variables, hence 'unsafe-inline' for styles only.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+  Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header unset X-Powered-By
+</IfModule>
 
 <IfModule mod_expires.c>
   ExpiresActive On
@@ -24,11 +44,18 @@ RedirectMatch 404 /\.gitignore$
   ExpiresByType image/png "access plus 30 days"
   ExpiresByType image/jpeg "access plus 30 days"
   ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType image/x-icon "access plus 30 days"
+  ExpiresByType font/woff2 "access plus 1 year"
   ExpiresByType video/mp4 "access plus 30 days"
   ExpiresByType application/pdf "access plus 7 days"
   ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType application/javascript "access plus 0 seconds"
+  ExpiresByType text/javascript "access plus 0 seconds"
 </IfModule>
 
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+  AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript text/javascript application/json application/xml image/svg+xml
 </IfModule>
+
+AddType font/woff2 .woff2
+AddType application/manifest+json .webmanifest
