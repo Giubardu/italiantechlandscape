@@ -12,7 +12,7 @@ RewriteRule ^ https://italiantechlandscape.com%{REQUEST_URI} [R=301,L]
 
 # The page is served at /; send direct hits on the file there too (THE_REQUEST avoids a loop with DirectoryIndex)
 RewriteCond %{THE_REQUEST} \s/index-v4\.html[\s?]
-RewriteRule ^index-v4\.html$ / [R=301,L]
+RewriteRule ^index-v4\.html$ https://italiantechlandscape.com/ [R=301,L]
 
 # Never serve repository files
 RedirectMatch 404 /\.git
