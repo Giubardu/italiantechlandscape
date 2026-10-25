@@ -29,7 +29,8 @@ RedirectMatch 404 \.(py|md|sh|lock|log|bak|sql)$
   # Content Security Policy: only this site's own scripts, fonts, images and endpoints.
   # Inline style attributes are used for layout variables, hence 'unsafe-inline' for styles only.
   Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
-  Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
+  # OVH terminates HTTPS in front of Apache, so this can't be conditioned on %{HTTPS}; browsers ignore it over http
+  Header always set Strict-Transport-Security "max-age=31536000"
   Header always set X-Content-Type-Options "nosniff"
   Header always set X-Frame-Options "DENY"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"

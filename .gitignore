@@ -1,9 +1,9 @@
 # Only index-v4.html is published; earlier drafts stay local
-index.html
-index-v2.html
-index-v3.html
-main.js
-styles.css
+/index.html
+/index-v2.html
+/index-v3.html
+/main.js
+/styles.css
 # Cloudflare version of the lead handler (Vercel uses api/leads.js)
 functions/
 # Raw client folders: the page uses the optimised copies in assets/img
