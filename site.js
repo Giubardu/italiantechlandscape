@@ -4,7 +4,6 @@
 
   /* ================= Config ================= */
   const ENDPOINT = "/api/leads.php";   // OVH mail handler, see api/leads.php
-  const REPORT_URL = "https://www.latechmadeinitaly.com/wp-content/uploads/2026/04/ITL-26-3rd-Edition-1.pdf";
   const EVENT_DAY = new Date("2027-02-24T00:00:00+01:00");
 
   const $ = (s, c = document) => c.querySelector(s);
@@ -14,10 +13,10 @@
 
   /* ================= Language ================= */
   const MSG = {
-    en: { sending: "Sending…", invalid: "Please complete the required fields.", reportOk: "Thank you. The report is opening in a new tab.", partnerOk: "Thank you. We will reply to your enquiry shortly.", error: "Something went wrong. Please try again in a moment." },
-    it: { sending: "Invio in corso…", invalid: "Compila i campi obbligatori.", reportOk: "Grazie. Il report si apre in una nuova scheda.", partnerOk: "Grazie. Ti risponderemo a breve.", error: "Qualcosa non ha funzionato. Riprova tra poco." }
+    en: { sending: "Sending…", invalid: "Please complete the required fields.", reportOk: "Thank you for your interest in the report. Our team will contact you by email soon.", partnerOk: "Thank you. We will reply to your enquiry shortly.", error: "Something went wrong. Please try again in a moment." },
+    it: { sending: "Invio in corso…", invalid: "Compila i campi obbligatori.", reportOk: "Grazie per l'interesse verso il report. Il nostro team ti contatterà presto via email.", partnerOk: "Grazie. Ti risponderemo a breve.", error: "Qualcosa non ha funzionato. Riprova tra poco." }
   };
-  const TITLE = { en: "Italian Tech Landscape 2026 · The official report on Italian tech", it: "Italian Tech Landscape 2026 · Il report ufficiale del tech italiano" };
+  const TITLE = { en: "Italian Tech Landscape 2026 · The official report on Italian tech", it: "Italian Tech Landscape 2026 · Il report ufficiale del Tech Made in Italy" };
   // Each language has its own URL (/ and /it/) so search engines index both
   const PAGE_LANG = document.documentElement.lang === "it" ? "it" : "en";
   const LANG_URL = { en: "/", it: "/it/" };
@@ -65,7 +64,8 @@
 
   /* ================= Char split (band title) ================= */
   $$("[data-chars]").forEach((el) => {
-    const text = el.textContent;
+    // per-language text lives in data-chars-<lang> (not data-<lang>, so applyLang never replaces the letter spans)
+    const text = el.getAttribute("data-chars-" + PAGE_LANG) || el.textContent;
     el.setAttribute("aria-label", text);
     el.textContent = "";
     [...text].forEach((c, i) => {
@@ -405,7 +405,13 @@
     try {
       const res = await fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(serialise(form)) });
       if (!res.ok) throw new Error("HTTP " + res.status);
-      if (form.id === "report-form") { setStatus(form, m.reportOk, "ok"); store("itl-downloaded", "1"); window.open(REPORT_URL, "_blank", "noopener"); }
+      if (form.id === "report-form") {
+        // No PDF and no email to the visitor: the team is notified and gets in touch. Show the thank-you panel.
+        setStatus(form, m.reportOk, "ok");
+        store("itl-downloaded", "1");
+        const done = $("#report-done");
+        if (done) { form.hidden = true; done.hidden = false; done.focus(); }
+      }
       else { setStatus(form, m.partnerOk, "ok"); form.reset(); }
     } catch (err) {
       setStatus(form, m.error, "err");

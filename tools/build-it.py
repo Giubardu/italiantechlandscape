@@ -50,11 +50,12 @@ def tag_swap(m):
     return tag
 
 s = re.sub(r'<\w+\b[^>]*\sdata-it(?:-aria|-label)?="[^"]*"[^>]*>', tag_swap, s)
+s = re.sub(r'(<p class="band-title"[^>]*data-chars-it="([^"]*)"[^>]*>)[^<]*(</p>)', lambda m: m.group(1) + m.group(2) + m.group(3), s)
 s = re.sub(r'(<p class="fill"[^>]*data-fill-it="([^"]*)"[^>]*>)[^<]*(</p>)',
            lambda m: m.group(1) + m.group(2).replace("*", "") + m.group(3), s)
 
 # 3. Page-level: language, title, canonical, social tags
-TITLE_IT = "Italian Tech Landscape 2026 · Il report ufficiale del tech italiano"
+TITLE_IT = "Italian Tech Landscape 2026 · Il report ufficiale del Tech Made in Italy"
 desc_it = re.search(r'<meta name="description"[^>]*data-it="([^"]*)"', src).group(1)
 s = s.replace('<html lang="en">', '<html lang="it">', 1)
 s = re.sub(r"<title>[^<]*</title>", f"<title>{TITLE_IT}</title>", s, count=1)

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Italian Tech Landscape 2026 · The official report on Italian tech</title>
-  <meta name="description" content="The official annual report on Italian tech: 1,652 solutions and 669 companies mapped and verified. Download the 2026 report free and join the 4th edition presentation, 24 February 2027, Milan." data-en="The official annual report on Italian tech: 1,652 solutions and 669 companies mapped and verified. Download the 2026 report free and join the 4th edition presentation, 24 February 2027, Milan." data-it="Il report ufficiale annuale sul tech italiano: 1.652 soluzioni e 669 aziende mappate e verificate. Scarica gratis il report 2026 e partecipa alla presentazione della 4ª edizione, 24 febbraio 2027, Milano.">
+  <meta name="description" content="The official annual report on Italian tech: 1,652 solutions and 669 companies mapped and verified. Download the 2026 report free and join the 4th edition presentation, 24 February 2027, Milan." data-en="The official annual report on Italian tech: 1,652 solutions and 669 companies mapped and verified. Download the 2026 report free and join the 4th edition presentation, 24 February 2027, Milan." data-it="Il report ufficiale annuale sul Tech Made in Italy: 1.652 soluzioni e 669 aziende mappate e verificate. Scarica gratis il report 2026 e partecipa alla presentazione della 4ª edizione, 24 febbraio 2027, Milano.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#041634">
   <link rel="canonical" href="https://italiantechlandscape.com/">
@@ -78,6 +78,7 @@
     img, svg, canvas, video { display: block; max-width: 100%; }
     a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .22em; }
     button { font: inherit; color: inherit; }
+    [hidden] { display: none !important; }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
     .skip { position: fixed; left: 12px; top: -60px; z-index: 100; background: var(--white); color: var(--ink); padding: 10px 14px; font-weight: 600; transition: top .2s; }
     .skip:focus { top: 12px; }
@@ -158,8 +159,10 @@
 
     /* Line mask rise */
     .lines .line { display: block; overflow: hidden; padding-bottom: .06em; margin-bottom: -.06em; white-space: nowrap; }
-    /* three fixed lines in both languages: sized so the longest ("ufficiale del", "tech italiano.") fits the copy column */
+    /* three fixed lines in both languages: sized so the longest ("Tech Made in Italy.") fits the copy column */
     .hero .display { font-size: clamp(3.1rem, 6.6vw, 6rem); }
+    /* Italian line 3 ("Tech Made in Italy.") is about 1.6x the English one: smaller size keeps it to 3 lines */
+    html[lang="it"] .hero .display { font-size: clamp(2.4rem, 4.8vw, 4.4rem); }
     .lines .line > span { display: inline-block; }
     .js .lines .line > span { transform: translateY(108%); animation: rise var(--dur-hero) var(--ease-out) forwards; }
     .js .lines .line:nth-child(2) > span { animation-delay: var(--stagger); }
@@ -237,7 +240,8 @@
     .figure::before { content: ""; position: absolute; left: 0; bottom: -1px; height: 1px; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 1.4s var(--ease-io); }
     .figure.in::before { transform: scaleX(1); }
     .big { font-size: clamp(4.6rem, 15vw, 13rem); line-height: .82; letter-spacing: -.07em; white-space: nowrap; }
-    .big .unit { color: var(--accent); }
+    .big .unit { color: inherit; }
+    .big .unit-sm { font-size: .42em; letter-spacing: -.02em; margin-left: .06em; }
     .figure-text { display: grid; gap: 12px; padding-bottom: 10px; }
     .figure-text p { margin: 0; font-size: clamp(1rem, 1.4vw, 1.15rem); }
     .figure-text .source { color: var(--on-ink-muted); }
@@ -399,6 +403,10 @@
     .check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--accent); }
     .check input[aria-invalid="true"] { outline: 2px solid #F2A3B6; outline-offset: 2px; }
     .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+    .gate-done { display: grid; gap: 16px; justify-items: start; padding: 8px 0 4px; }
+    .gate-done:focus { outline: none; }
+    .gate-done-mark { width: 52px; height: 52px; border-radius: 50%; background: rgba(62, 209, 209, .14); border: 1px solid var(--accent); position: relative; }
+    .gate-done-mark::after { content: ""; position: absolute; left: 17px; top: 15px; width: 16px; height: 9px; border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); }
     .privacy-link { font-size: .8rem; color: var(--on-ink-muted); margin: -6px 0 0 34px; }
     .form-status { margin: 0; font-size: .9rem; min-height: 1.4em; }
     .form-status.ok { color: var(--accent); }
@@ -616,7 +624,7 @@
       <h1 class="display lines">
         <span class="line"><span data-en="The official" data-it="Il report">The official</span></span>
         <span class="line"><span data-en="report on" data-it="ufficiale del">report on</span></span>
-        <span class="line"><span class="accent" data-en="Italian tech." data-it="tech italiano.">Italian tech.</span></span>
+        <span class="line"><span class="accent" data-en="Italian tech." data-it="Tech Made in Italy.">Italian tech.</span></span>
       </h1>
       <p class="lede after after-1" data-en="Every edition maps the companies, solutions and categories of technology developed in Italy, checked against official records and validated with the companies themselves." data-it="Ogni edizione mappa aziende, soluzioni e categorie della tecnologia sviluppata in Italia, verificate sui registri ufficiali e validate con le aziende stesse.">Every edition maps the companies, solutions and categories of technology developed in Italy, checked against official records and validated with the companies themselves.</p>
       <div class="hero-actions after after-2">
@@ -686,7 +694,7 @@
 
     <div class="audience-head">
       <h3 class="h2 tr" id="audience-for"><span data-en="Written for the people who build, buy and back Italian tech." data-it="Pensato per chi crea, sceglie e finanzia il tech italiano.">Written for the people who build, buy and back Italian tech.</span></h3>
-      <div class="rv" style="--d:.15"><button type="button" class="btn btn-primary" data-open-gate><span data-en="Get your copy" data-it="Scarica la tua copia">Get your copy</span> <span class="arrow" aria-hidden="true">→</span></button></div>
+      <div class="rv" style="--d:.15"><button type="button" class="btn btn-primary" data-open-gate><span data-en="Get your copy" data-it="Scarica il report">Get your copy</span> <span class="arrow" aria-hidden="true">→</span></button></div>
     </div>
     <dl class="audience" aria-labelledby="audience-for">
       <div class="rv">
@@ -722,7 +730,7 @@
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow rv" data-en="Key findings · 2026 edition" data-it="Dati chiave · edizione 2026">Key findings · 2026 edition</p>
-      <h2 class="h2 tr" id="findings-title"><span data-en="The sector, in four numbers." data-it="Il settore, in quattro numeri.">The sector, in four numbers.</span></h2>
+      <h2 class="h2 tr" id="findings-title"><span data-en="A report based on data." data-it="Un report basato sui dati.">A report based on data.</span></h2>
     </div>
     <ul class="figures">
       <li class="figure rv">
@@ -747,10 +755,10 @@
         </div>
       </li>
       <li class="figure rv">
-        <p class="big num"><span data-count="9">9</span></p>
+        <p class="big num"><span data-count="15.2" data-decimals="1" data-prefix="€">€15,2</span><span class="unit unit-sm" data-en="bn" data-it="mld">bn</span></p>
         <div class="figure-text">
-          <p data-en="unicorns in the mapped ecosystem." data-it="unicorni nell'ecosistema mappato.">unicorns in the mapped ecosystem.</p>
-          <p class="source">ITL 2026 · p. 19</p>
+          <p data-en="in total revenue across all the mapped categories." data-it="di fatturato totale, sommando tutte le categorie mappate.">in total revenue across all the mapped categories.</p>
+          <p class="source">ITL 2026 · p. 26</p>
         </div>
       </li>
     </ul>
@@ -762,7 +770,7 @@
   <img src="assets/img/itl26/itl26-223.webp" alt="A full auditorium during the ITL 2026 presentation at Monterosa 91, Milan" data-parallax=".18" width="1280" height="854">
   <div class="wrap band-copy">
     <p class="eyebrow rv" data-en="ITL 2026 · Monterosa 91, Milan" data-it="ITL 2026 · Monterosa 91, Milano">ITL 2026 · Monterosa 91, Milan</p>
-    <p class="band-title" data-chars>Italy is Tech!</p>
+    <p class="band-title" data-chars data-chars-en="Italy is Tech!" data-chars-it="L’Italia è Tech!">Italy is Tech!</p>
   </div>
 </section>
 
@@ -902,7 +910,7 @@
     <div class="speakers-head">
       <div class="section-head">
         <p class="eyebrow rv" data-en="Speakers · 24 February 2027" data-it="Relatori · 24 febbraio 2027">Speakers · 24 February 2027</p>
-        <h2 class="h2 tr" id="speakers-title"><span data-en="Who takes the stage." data-it="Chi sale sul palco.">Who takes the stage.</span></h2>
+        <h2 class="h2 tr" id="speakers-title"><span data-en="Some of our speakers." data-it="Alcuni dei nostri Speakers.">Some of our speakers.</span></h2>
       </div>
       <div class="soon rv">
         <span class="btn btn-ghost soon-btn" aria-disabled="true"><span data-en="See the 2027 program" data-it="Scopri il programma 2027">See the 2027 program</span></span>
@@ -1250,9 +1258,15 @@
     <div class="gate-head">
       <div style="display:grid;gap:10px">
         <h2 class="h3" id="gate-title" data-en="Download the 2026 report" data-it="Scarica il report 2026">Download the 2026 report</h2>
-        <p class="source" data-en="ITL 2026, 3rd edition · PDF, 42 MB. Tell us who you are first: the report opens in a new tab after you submit." data-it="ITL 2026, 3ª edizione · PDF, 42 MB. Dicci prima chi sei: il report si apre in una nuova scheda dopo l'invio.">ITL 2026, 3rd edition · PDF, 42 MB. Tell us who you are first: the report opens in a new tab after you submit.</p>
+        <p class="source" data-en="ITL 2026, 3rd edition. Leave your details and our team will contact you by email." data-it="ITL 2026, 3ª edizione. Lascia i tuoi dati e il nostro team ti contatterà via email.">ITL 2026, 3rd edition. Leave your details and our team will contact you by email.</p>
       </div>
       <button type="button" class="x" data-close aria-label="Close" data-en-aria="Close" data-it-aria="Chiudi">×</button>
+    </div>
+    <div class="gate-done" id="report-done" role="status" tabindex="-1" hidden>
+      <span class="gate-done-mark" aria-hidden="true"></span>
+      <h3 class="h3" data-en="Thank you for your interest in the report." data-it="Grazie per l'interesse verso il report.">Thank you for your interest in the report.</h3>
+      <p class="prose" data-en="We have received your details. Our team will contact you by email soon." data-it="Abbiamo ricevuto i tuoi dati. Il nostro team ti contatterà presto via email.">We have received your details. Our team will contact you by email soon.</p>
+      <button type="button" class="btn btn-ghost" data-close><span data-en="Back to the page" data-it="Torna alla pagina">Back to the page</span></button>
     </div>
     <form class="form" id="report-form" novalidate>
       <input type="hidden" name="type" value="report">
@@ -1389,6 +1403,18 @@
           <option value="Wearable Tech">Wearable Tech</option>
           <option value="Software House">Software House</option>
           <option value="Tutte" data-en="All categories" data-it="Tutte le categorie">All categories</option>
+          <option value="Altro" data-en="Other" data-it="Altro">Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="r-source" data-en="How did you hear about us?" data-it="Come hai conosciuto lo studio?">How did you hear about us?</label>
+        <select id="r-source" name="source" required>
+          <option value="" data-en="Select" data-it="Seleziona">Select</option>
+          <option value="Social media">Social media</option>
+          <option value="Internet" data-en="Web search" data-it="Ricerca sul web">Web search</option>
+          <option value="Newsletter">Newsletter</option>
+          <option value="Referenze" data-en="Recommendation" data-it="Passaparola o referenze">Recommendation</option>
+          <option value="Evento" data-en="Event" data-it="Evento">Event</option>
           <option value="Altro" data-en="Other" data-it="Altro">Other</option>
         </select>
       </div>

@@ -81,6 +81,7 @@ $lead = [
   'role' => clean($body['role'] ?? '', MAX['role']),
   'size' => clean($body['size'] ?? '', 20),
   'interest' => clean($body['interest'] ?? '', 80),
+  'source' => clean($body['source'] ?? '', 40),
   'tier' => clean($body['tier'] ?? '', 20),
   'message' => clean($body['message'] ?? '', MAX['message']),
   'newsletter' => ($body['newsletter'] ?? false) === true,
@@ -89,7 +90,7 @@ $lead = [
 ];
 
 if ($type === 'report') {
-  foreach (['firstName', 'lastName', 'company', 'role', 'size', 'interest'] as $k) if ($lead[$k] === '') $errors[] = $k;
+  foreach (['firstName', 'lastName', 'company', 'role', 'size', 'interest', 'source'] as $k) if ($lead[$k] === '') $errors[] = $k;
 } elseif ($type === 'partner') {
   foreach (['name', 'company'] as $k) if ($lead[$k] === '') $errors[] = $k;
 } else {
@@ -101,7 +102,7 @@ if ($errors) reply(422, ['ok' => false, 'errors' => $errors]);
 $report = $type === 'report';
 $who = $report ? $lead['firstName'] . ' ' . $lead['lastName'] : $lead['name'];
 $rows = $report
-  ? [['Nome', $who], ['Email', $email], ['Azienda', $lead['company']], ['Ruolo', $lead['role']], ['Dimensione azienda', $lead['size']], ['Categoria di interesse', $lead['interest']], ['Newsletter', $lead['newsletter'] ? 'Sì' : 'No']]
+  ? [['Nome', $who], ['Email', $email], ['Azienda', $lead['company']], ['Ruolo', $lead['role']], ['Dimensione azienda', $lead['size']], ['Categoria di interesse', $lead['interest']], ['Come ci ha conosciuto', $lead['source']], ['Newsletter', $lead['newsletter'] ? 'Sì' : 'No']]
   : [['Nome', $who], ['Email', $email], ['Azienda', $lead['company']], ['Partnership', $lead['tier'] ?: 'Non ancora deciso'], ['Messaggio', $lead['message'] ?: '—']];
 $rows[] = ['Lingua del sito', $lead['lang']];
 $rows[] = ['Inviato il', $lead['submittedAt']];
