@@ -176,6 +176,9 @@
     .js .hero .after-4 { animation-delay: 1s; }
     @keyframes fadeUp { to { opacity: 1; transform: none; } }
 
+    /* Main partner, under the hero cover */
+    .hero-partner { display: flex; align-items: center; justify-content: flex-end; gap: 22px; margin: clamp(36px, 5vw, 64px) 0 0; font: 600 .78rem/1 var(--font); letter-spacing: .16em; text-transform: uppercase; color: var(--white); }
+    .hero-partner img { height: clamp(40px, 4.2vw, 56px); width: auto; }
     /* Report cover (matches the PDF cover: blue gradient, dotted Italy, logo centred) */
     .cover-wrap { justify-self: end; width: min(100%, 560px); perspective: 1200px; }
     .js .cover-wrap { opacity: 0; animation: coverIn 1.4s .35s var(--ease-out) forwards; }
@@ -539,6 +542,7 @@
     @media (max-width: 960px) {
       .hero-grid, .event, .partner-grid, .download-inner, .about { grid-template-columns: minmax(0, 1fr); }
       .cover-wrap { justify-self: start; width: min(100%, 520px); }
+      .hero-partner { justify-content: flex-start; }
       .ticket { position: relative; top: auto; }
       .site-nav { display: none; }
       .tiers, .audience { grid-template-columns: minmax(0, 1fr); }
@@ -656,6 +660,10 @@
           </div>
         </figure>
       </div>
+      <p class="hero-partner after after-4">
+        <span data-en="Main partner" data-it="Main partner">Main partner</span>
+        <img src="/assets/logos/altermaind-white.webp" alt="altermAInd" width="230" height="120">
+      </p>
     </div>
   </div>
 </section>
@@ -780,7 +788,7 @@
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow rv" data-en="Method" data-it="Metodo">Metodo</p>
-      <h2 class="h2 tr" id="method-title"><span data-en="Every solution is checked twice." data-it="Ogni soluzione è verificata due volte.">Ogni soluzione è verificata due volte.</span></h2>
+      <h2 class="h2 tr" id="method-title"><span data-en="A proven methodology." data-it="Una metodologia comprovata.">Una metodologia comprovata.</span></h2>
       <p class="lede rv" style="--d:.15" data-en="Four steps, in order. Each one narrows the map from every solution we can find to a verified profile." data-it="Quattro passaggi, in ordine. Ogni passaggio restringe la mappa da tutte le soluzioni trovate a un profilo verificato.">Quattro passaggi, in ordine. Ogni passaggio restringe la mappa da tutte le soluzioni trovate a un profilo verificato.</p>
     </div>
     <ol class="steps">
