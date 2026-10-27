@@ -227,6 +227,9 @@
     .fill { font: 800 clamp(1.9rem, 4.6vw, 3.9rem)/1.12 var(--font); letter-spacing: -.035em; margin: 0; max-width: 20ch; }
     .fill span { opacity: .16; transition: none; }
     .fill span.hl { color: var(--accent); }
+    .statement-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: center; }
+    .statement-map { width: 100%; height: auto; filter: brightness(2.4) saturate(1.2); }
+    @media (max-width: 720px) { .statement-grid { grid-template-columns: minmax(0, 1fr); } .statement-map { width: 60%; justify-self: end; margin-top: -8px; } }
     .audience-head { display: flex; justify-content: space-between; align-items: end; gap: 24px 48px; flex-wrap: wrap; margin: clamp(80px, 11vw, 140px) 0 clamp(36px, 5vw, 56px); }
     .audience-head .h2 { font-size: clamp(1.8rem, 3.6vw, 2.9rem); max-width: 22ch; }
     .audience { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: 0; border-top: 1px solid var(--line); }
@@ -243,6 +246,7 @@
     .figure::before { content: ""; position: absolute; left: 0; bottom: -1px; height: 1px; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 1.4s var(--ease-io); }
     .figure.in::before { transform: scaleX(1); }
     .big { font-size: clamp(4.6rem, 15vw, 13rem); line-height: .82; letter-spacing: -.07em; white-space: nowrap; }
+    @media (min-width: 961px) { .big { font-size: clamp(6rem, 10.5vw, 9.5rem); } }
     .big .unit { color: inherit; }
     .big .unit-sm { font-size: .42em; letter-spacing: -.02em; margin-left: .06em; }
     .figure-text { display: grid; gap: 12px; padding-bottom: 10px; }
@@ -696,9 +700,12 @@
   <div class="wrap">
     <p class="eyebrow rv" style="margin-bottom:32px" data-en="The report" data-it="Il report">The report</p>
     <h2 class="sr-only" id="report-title" data-en="A scientific map of Made in Italy technology" data-it="Una mappa scientifica della tecnologia Made in Italy">A scientific map of Made in Italy technology</h2>
+    <div class="statement-grid">
     <p class="fill" id="fill"
        data-fill-en="A scientific map of *Made *in *Italy technology. Each edition maps companies, sorts their solutions into categories and tracks the sector nationally and internationally."
        data-fill-it="Una mappa scientifica della tecnologia *Made *in *Italy. Ogni edizione mappa le aziende, classifica le soluzioni per categoria e segue il settore in Italia e all'estero.">A scientific map of Made in Italy technology. Each edition maps companies, sorts their solutions into categories and tracks the sector nationally and internationally.</p>
+    <img class="statement-map rv" style="--d:.2" src="assets/img/italy-map.webp" alt="" loading="lazy" width="800" height="795">
+    </div>
 
     <div class="audience-head">
       <h3 class="h2 tr" id="audience-for"><span data-en="Written for the people who build, buy and back Italian tech." data-it="Pensato per chi crea, sceglie e finanzia il tech italiano.">Written for the people who build, buy and back Italian tech.</span></h3>
@@ -814,60 +821,6 @@
     </ol>
     <p class="source method-foot" data-en="Methodology: ITL 2026, p. 10." data-it="Metodologia: ITL 2026, p. 10.">Methodology: ITL 2026, p. 10.</p>
   </div>
-</section>
-
-<!-- ============ GALLERY: ITL 2026 justified carousel ============ -->
-<section class="section gallery" id="gallery" aria-labelledby="gallery-title">
-  <div class="wrap gallery-head">
-    <div style="display:grid;gap:20px;max-width:720px">
-      <p class="eyebrow rv" data-en="ITL 2026 · in pictures" data-it="ITL 2026 · per immagini">ITL 2026 · in pictures</p>
-      <h2 class="h2 tr" id="gallery-title"><span data-en="One morning, a whole ecosystem in the room." data-it="Una mattina, un intero ecosistema in sala.">One morning, a whole ecosystem in the room.</span></h2>
-    </div>
-    <div class="g-controls">
-      <button type="button" class="g-btn" data-g="-1" aria-label="Previous photos" data-en-aria="Previous photos" data-it-aria="Foto precedenti">←</button>
-      <button type="button" class="g-btn" data-g="1" aria-label="Next photos" data-en-aria="Next photos" data-it-aria="Foto successive">→</button>
-    </div>
-  </div>
-
-  <div class="g-scroller" id="g-scroller" tabindex="0" aria-label="ITL 2026 photo gallery">
-    <div class="g-rows">
-      <div class="g-row">
-        <button type="button" class="g-item" style="--r:2.1" data-lb="gallery"><img src="assets/img/itl26/itl26-223.webp" alt="A full auditorium during the ITL 2026 presentation" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-34.webp" alt="A speaker on stage at ITL 2026" loading="lazy" width="1280" height="855"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-99.webp" alt="Two guests on stage behind the ITL 26 letters" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" style="--r:.67" data-lb="gallery"><img src="assets/img/itl26/itl26-205.webp" alt="A speaker on stage under blue light" loading="lazy" width="854" height="1280"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-213.webp" alt="A speaker presenting the report findings" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-108.webp" alt="Guests networking at the coffee station" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" style="--r:2.1" data-lb="gallery"><img src="assets/img/itl26/itl26-266.webp" alt="The Italian Tech Landscape map on the main screen" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" style="--r:1" data-lb="gallery"><img src="assets/img/itl26/itl26-151.webp" alt="A conversation during the networking break" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-252.webp" alt="A speaker presenting soon-to-be unicorns" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-133.webp" alt="Guests talking in the lounge" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" style="--r:1" data-lb="gallery"><img src="assets/img/itl26/itl26-230.webp" alt="An attendee listening in the auditorium" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-290.webp" alt="A speaker beside the ITL 26 letters" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-137.webp" alt="Two guests in conversation" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" style="--r:1" data-lb="gallery"><img src="assets/img/itl26/itl26-76.webp" alt="A speaker during his talk" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" style="--r:2.1" data-lb="gallery"><img src="assets/img/itl26/itl26-192.webp" alt="The ITL 2026 stage before the presentation" loading="lazy" width="1280" height="854"></button>
-      </div>
-      <div class="g-row">
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-188.webp" alt="A speaker in front of the Italian Tech Landscape title screen" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" style="--r:1" data-lb="gallery"><img src="assets/img/itl26/itl26-29.webp" alt="Attendees in the auditorium" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" style="--r:2.1" data-lb="gallery"><img src="assets/img/itl26/itl26-264.webp" alt="A speaker presenting the full landscape map" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-115.webp" alt="Guests talking during the break" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-62.webp" alt="A speaker in front of the ITL title screen" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-143.webp" alt="Three guests at the networking area" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" style="--r:2.1" data-lb="gallery"><img src="assets/img/itl26/itl26-27.webp" alt="The auditorium seen from the back rows" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" style="--r:1" data-lb="gallery"><img src="assets/img/itl26/itl26-171.webp" alt="An interview next to the programme banner" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-200.webp" alt="The two hosts on stage" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-129.webp" alt="The networking lounge at Monterosa 91" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-245.webp" alt="A speaker beside the ITL 26 letters" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" style="--r:1" data-lb="gallery"><img src="assets/img/itl26/itl26-78.webp" alt="The audience during a talk" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-226.webp" alt="A speaker explaining the report methodology" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" style="--r:2.1" data-lb="gallery"><img src="assets/img/itl26/itl26-84.webp" alt="Two speakers in front of the landscape map" loading="lazy" width="1280" height="854"></button>
-        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-97.webp" alt="A guest standing behind the ITL 26 letters" loading="lazy" width="1280" height="854"></button>
-      </div>
-    </div>
-  </div>
-  <div class="wrap"><div class="g-progress" aria-hidden="true"><span id="g-bar"></span></div></div>
 </section>
 
 <!-- ============ EVENT ============ -->
@@ -1012,6 +965,60 @@
     </li>
     </ul>
   </div>
+</section>
+
+<!-- ============ GALLERY: ITL 2026 justified carousel ============ -->
+<section class="section gallery" id="gallery" aria-labelledby="gallery-title">
+  <div class="wrap gallery-head">
+    <div style="display:grid;gap:20px;max-width:720px">
+      <p class="eyebrow rv" data-en="ITL 2026 · in pictures" data-it="ITL 2026 · per immagini">ITL 2026 · in pictures</p>
+      <h2 class="h2 tr" id="gallery-title"><span data-en="One day, a whole ecosystem in the room." data-it="Una giornata, un intero ecosistema in sala.">One day, a whole ecosystem in the room.</span></h2>
+    </div>
+    <div class="g-controls">
+      <button type="button" class="g-btn" data-g="-1" aria-label="Previous photos" data-en-aria="Previous photos" data-it-aria="Foto precedenti">←</button>
+      <button type="button" class="g-btn" data-g="1" aria-label="Next photos" data-en-aria="Next photos" data-it-aria="Foto successive">→</button>
+    </div>
+  </div>
+
+  <div class="g-scroller" id="g-scroller" tabindex="0" aria-label="ITL 2026 photo gallery">
+    <div class="g-rows">
+      <div class="g-row">
+        <button type="button" class="g-item" style="--r:2.1" data-lb="gallery"><img src="assets/img/itl26/itl26-223.webp" alt="A full auditorium during the ITL 2026 presentation" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-34.webp" alt="A speaker on stage at ITL 2026" loading="lazy" width="1280" height="855"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-99.webp" alt="Two guests on stage behind the ITL 26 letters" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" style="--r:.67" data-lb="gallery"><img src="assets/img/itl26/itl26-205.webp" alt="A speaker on stage under blue light" loading="lazy" width="854" height="1280"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-213.webp" alt="A speaker presenting the report findings" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-108.webp" alt="Guests networking at the coffee station" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" style="--r:2.1" data-lb="gallery"><img src="assets/img/itl26/itl26-266.webp" alt="The Italian Tech Landscape map on the main screen" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" style="--r:1" data-lb="gallery"><img src="assets/img/itl26/itl26-151.webp" alt="A conversation during the networking break" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-252.webp" alt="A speaker presenting soon-to-be unicorns" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-133.webp" alt="Guests talking in the lounge" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" style="--r:1" data-lb="gallery"><img src="assets/img/itl26/itl26-230.webp" alt="An attendee listening in the auditorium" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-290.webp" alt="A speaker beside the ITL 26 letters" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-137.webp" alt="Two guests in conversation" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" style="--r:1" data-lb="gallery"><img src="assets/img/itl26/itl26-76.webp" alt="A speaker during his talk" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" style="--r:2.1" data-lb="gallery"><img src="assets/img/itl26/itl26-192.webp" alt="The ITL 2026 stage before the presentation" loading="lazy" width="1280" height="854"></button>
+      </div>
+      <div class="g-row">
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-188.webp" alt="A speaker in front of the Italian Tech Landscape title screen" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" style="--r:1" data-lb="gallery"><img src="assets/img/itl26/itl26-29.webp" alt="Attendees in the auditorium" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" style="--r:2.1" data-lb="gallery"><img src="assets/img/itl26/itl26-264.webp" alt="A speaker presenting the full landscape map" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-115.webp" alt="Guests talking during the break" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-62.webp" alt="A speaker in front of the ITL title screen" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-143.webp" alt="Three guests at the networking area" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" style="--r:2.1" data-lb="gallery"><img src="assets/img/itl26/itl26-27.webp" alt="The auditorium seen from the back rows" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" style="--r:1" data-lb="gallery"><img src="assets/img/itl26/itl26-171.webp" alt="An interview next to the programme banner" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-200.webp" alt="The two hosts on stage" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-129.webp" alt="The networking lounge at Monterosa 91" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-245.webp" alt="A speaker beside the ITL 26 letters" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" style="--r:1" data-lb="gallery"><img src="assets/img/itl26/itl26-78.webp" alt="The audience during a talk" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-226.webp" alt="A speaker explaining the report methodology" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" style="--r:2.1" data-lb="gallery"><img src="assets/img/itl26/itl26-84.webp" alt="Two speakers in front of the landscape map" loading="lazy" width="1280" height="854"></button>
+        <button type="button" class="g-item" data-lb="gallery"><img src="assets/img/itl26/itl26-97.webp" alt="A guest standing behind the ITL 26 letters" loading="lazy" width="1280" height="854"></button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="g-progress" aria-hidden="true"><span id="g-bar"></span></div></div>
 </section>
 
 <!-- ============ PARTNERS ============ -->
@@ -1189,7 +1196,7 @@
   <div class="wrap download-inner">
     <div style="display:grid;gap:30px">
       <p class="eyebrow rv" data-en="ITL 2026 · 3rd edition" data-it="ITL 2026 · 3ª edizione">ITL 2026 · 3rd edition</p>
-      <h2 class="download-title tr" id="download-title"><span data-en="Read the full map." data-it="Leggi la mappa completa.">Read the full map.</span></h2>
+      <h2 class="download-title tr" id="download-title"><span data-en="Download the full report." data-it="Scarica il report completo.">Download the full report.</span></h2>
       <ul class="download-meta rv">
         <li data-en="176 pages" data-it="176 pagine">176 pages</li>
         <li data-en="In English" data-it="In inglese">In English</li>
@@ -1247,7 +1254,7 @@
 
 <footer class="site-footer" id="privacy">
   <div class="wrap">
-    <p class="footer-word" aria-hidden="true">#MadeInItaly</p>
+    <p class="footer-word" aria-hidden="true">#MadeinItaly</p>
     <div class="footer-inner">
       <span data-en="© 2026 La Tech Made in Italy. Italian Tech Landscape® and its logo are trademarks." data-it="© 2026 La Tech Made in Italy. Italian Tech Landscape® e il suo logo sono marchi registrati.">© 2026 La Tech Made in Italy. Italian Tech Landscape® and its logo are trademarks.</span>
       <nav aria-label="Footer">
