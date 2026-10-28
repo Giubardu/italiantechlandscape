@@ -489,7 +489,11 @@
 
     /* ---------- Footer ---------- */
     .site-footer { padding: 72px 0 56px; border-top: 1px solid var(--line); font-size: .85rem; color: var(--on-ink-muted); overflow: hidden; }
-    .footer-word { font: 800 clamp(3rem, 14vw, 13rem)/.8 var(--font); letter-spacing: -.07em; color: transparent; -webkit-text-stroke: 1px rgba(199, 207, 220, .28); margin: 0 0 48px; white-space: nowrap; }
+    .footer-word { font: 800 clamp(2rem, 9.6vw, 9rem)/.8 var(--font); letter-spacing: -.07em; color: transparent; -webkit-text-stroke: 1px rgba(199, 207, 220, .28); margin: 0 0 48px; white-space: nowrap; }
+    .footer-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 28px 48px; margin: 0 0 40px; }
+    .footer-logos a { display: block; opacity: .85; transition: opacity .3s var(--ease-out); }
+    .footer-logos a:hover { opacity: 1; }
+    .footer-logos img { display: block; width: auto; }
     .footer-inner { display: flex; flex-wrap: wrap; gap: 16px 32px; justify-content: space-between; align-items: center; }
     .footer-inner nav { display: flex; gap: 22px; flex-wrap: wrap; }
     .footer-inner a { color: var(--on-ink-muted); text-decoration: none; }
@@ -639,7 +643,7 @@
         <button type="button" class="btn btn-primary" data-open-gate>
           <span data-en="Download the 2026 report" data-it="Scarica il report 2026">Download the 2026 report</span> <span class="arrow" aria-hidden="true">→</span>
         </button>
-        <a class="btn btn-ghost" href="#event"><span data-en="Get a ticket · 24 Feb 2027" data-it="Biglietto · 24 feb 2027">Get a ticket · 24 Feb 2027</span></a>
+        <a class="btn btn-ghost" href="#ticket"><span data-en="Get a ticket · 24 Feb 2027" data-it="Biglietto · 24 feb 2027">Get a ticket · 24 Feb 2027</span></a>
       </div>
       <dl class="hero-facts after after-3">
         <div><dt data-en="Solutions mapped" data-it="Soluzioni mappate">Solutions mapped</dt><dd class="num" data-count="1652">1.652</dd></div>
@@ -849,7 +853,7 @@
       </div>
     </div>
 
-    <aside class="ticket rv" aria-labelledby="ticket-title">
+    <aside class="ticket rv" id="ticket" aria-labelledby="ticket-title">
       <h3 id="ticket-title" class="h3" data-en="Ticket" data-it="Biglietto">Ticket</h3>
       <p class="price num"><span data-count="99" data-prefix="€">€99</span><small data-en="per person" data-it="a persona">per person</small></p>
       <p class="seats"><strong class="num" data-count="400">400</strong><span data-en="seats available in the auditorium" data-it="posti in auditorium">seats available in the auditorium</span></p>
@@ -1253,7 +1257,11 @@
 
 <footer class="site-footer" id="privacy">
   <div class="wrap">
-    <p class="footer-word" aria-hidden="true">#MadeinItaly</p>
+    <p class="footer-word" aria-hidden="true">#TechMadeinItaly</p>
+    <div class="footer-logos">
+      <a href="https://www.latechmadeinitaly.com/" target="_blank" rel="noopener"><img src="assets/logos/latechmadeinitaly.png" alt="La Tech Made in Italy" loading="lazy" width="938" height="188" style="height:36px"></a>
+      <a href="https://www.mimit.gov.it/" target="_blank" rel="noopener"><img src="assets/logos/ministero-imprese.png" alt="Ministero delle Imprese e del Made in Italy" loading="lazy" width="795" height="309" style="height:60px"></a>
+    </div>
     <div class="footer-inner">
       <span data-en="© 2026 La Tech Made in Italy. Italian Tech Landscape® and its logo are trademarks." data-it="© 2026 La Tech Made in Italy. Italian Tech Landscape® e il suo logo sono marchi registrati.">© 2026 La Tech Made in Italy. Italian Tech Landscape® and its logo are trademarks.</span>
       <nav aria-label="Footer">
