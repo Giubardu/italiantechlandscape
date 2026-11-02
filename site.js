@@ -370,6 +370,35 @@
   $$("[data-close]").forEach((b) => b.addEventListener("click", () => b.closest("dialog").close()));
   gate.addEventListener("click", (e) => { if (e.target === gate) gate.close(); });
 
+  /* ================= Cookie consent + Meta pixel =================
+     Nothing from Meta loads until the visitor presses Accept. The choice is kept in localStorage;
+     "Cookie settings" in the footer reopens the banner. Rejecting after accepting takes effect on the next page load. */
+  const PIXEL_ID = "1657438149087365";
+  const banner = $("#cookie");
+  function loadPixel() {
+    if (window.fbq) return;
+    const n = window.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+    if (!window._fbq) window._fbq = n;
+    n.push = n; n.loaded = true; n.version = "2.0"; n.queue = [];
+    const s = document.createElement("script");
+    s.async = true; s.src = "https://connect.facebook.net/en_US/fbevents.js";
+    document.head.append(s);
+    window.fbq("init", PIXEL_ID);
+    window.fbq("track", "PageView");
+  }
+  const track = (event, params) => { if (window.fbq) window.fbq("track", event, params); };
+  if (banner) {
+    const choice = store("itl-consent");
+    if (choice === "granted") loadPixel();
+    else if (choice !== "denied") banner.hidden = false;
+    $$("[data-consent]", banner).forEach((b) => b.addEventListener("click", () => {
+      store("itl-consent", b.dataset.consent);
+      banner.hidden = true;
+      if (b.dataset.consent === "granted") loadPixel();
+    }));
+    $$("[data-cookie-settings]").forEach((b) => b.addEventListener("click", () => { banner.hidden = false; $("[data-consent]", banner).focus(); }));
+  }
+
   /* ================= Forms → /api/leads ================= */
   function setStatus(form, text, kind) {
     const el = $(".form-status", form);
@@ -405,6 +434,7 @@
     try {
       const res = await fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(serialise(form)) });
       if (!res.ok) throw new Error("HTTP " + res.status);
+      track("Lead", { content_name: form.id === "report-form" ? "report" : "partner" });
       if (form.id === "report-form") {
         // No PDF and no email to the visitor: the team is notified and gets in touch. Show the thank-you panel.
         setStatus(form, m.reportOk, "ok");

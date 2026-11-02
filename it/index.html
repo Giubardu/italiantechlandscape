@@ -488,6 +488,15 @@
     /* ---------- Mobile CTA bar ---------- */
     .mbar { display: none; }
 
+    /* ---------- Cookie consent (Meta pixel loads only after Accept) ---------- */
+    .cookie { position: fixed; left: var(--gutter); right: var(--gutter); bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 70; max-width: 440px; display: grid; gap: 14px; padding: 20px; background: var(--ink-2); color: var(--white); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 18px 50px rgba(0, 0, 0, .45); font-size: .88rem; line-height: 1.55; }
+    .cookie[hidden] { display: none; }
+    .cookie p { margin: 0; color: var(--on-ink-muted); }
+    .cookie a { color: var(--accent); }
+    .cookie-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .cookie .btn { min-height: 46px; padding: .6rem 1rem; font-size: .88rem; }
+    .footer-inner nav button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-decoration: inherit; }
+
     /* ---------- Footer ---------- */
     .site-footer { padding: 72px 0 56px; border-top: 1px solid var(--line); font-size: .85rem; color: var(--on-ink-muted); overflow: hidden; }
     .footer-word { font: 800 clamp(2rem, 9.6vw, 9rem)/.8 var(--font); letter-spacing: -.07em; color: transparent; -webkit-text-stroke: 1px rgba(199, 207, 220, .28); margin: 0 0 48px; white-space: nowrap; }
@@ -1270,10 +1279,22 @@
         <a href="#event" data-en="Event" data-it="Evento">Evento</a>
         <a href="#partners" data-en="Partners" data-it="Partner">Partner</a>
         <a href="https://www.latechmadeinitaly.com/privacy/" target="_blank" rel="noopener" data-en="Privacy notice" data-it="Informativa privacy">Informativa privacy</a>
+        <button type="button" data-cookie-settings data-en="Cookie settings" data-it="Impostazioni cookie">Impostazioni cookie</button>
       </nav>
     </div>
   </div>
 </footer>
+
+<!-- Cookie consent: shown until the visitor chooses; the Meta pixel loads only after Accept (site.js) -->
+<section class="cookie" id="cookie" aria-labelledby="cookie-title" hidden>
+  <p><strong id="cookie-title" data-en="Cookies" data-it="Cookie">Cookie</strong></p>
+  <p data-en="With your consent we use the Meta pixel to measure our ads on Facebook and Instagram. If you reject it, the site works exactly the same." data-it="Con il tuo consenso usiamo il pixel di Meta per misurare le nostre campagne su Facebook e Instagram. Se lo rifiuti, il sito funziona esattamente allo stesso modo.">Con il tuo consenso usiamo il pixel di Meta per misurare le nostre campagne su Facebook e Instagram. Se lo rifiuti, il sito funziona esattamente allo stesso modo.</p>
+  <p><a href="https://www.latechmadeinitaly.com/privacy/" target="_blank" rel="noopener" data-en="Read the privacy notice ↗" data-it="Leggi l'informativa privacy ↗">Leggi l'informativa privacy ↗</a></p>
+  <div class="cookie-actions">
+    <button type="button" class="btn btn-ghost" data-consent="denied"><span data-en="Reject" data-it="Rifiuta">Rifiuta</span></button>
+    <button type="button" class="btn btn-ghost" data-consent="granted"><span data-en="Accept" data-it="Accetta">Accetta</span></button>
+  </div>
+</section>
 
 <!-- Report gate -->
 <dialog class="gate" id="gate" aria-labelledby="gate-title">
