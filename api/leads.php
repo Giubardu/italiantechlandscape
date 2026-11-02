@@ -2,14 +2,23 @@
 // POST /api/leads.php
 //
 // Receives the report-download and partner-enquiry forms from index-v4.html,
-// validates them and emails each lead to the La Tech Made in Italy team with the
+// validates them, emails each lead to the La Tech Made in Italy team with the
 // hosting's own mail() (OVH web hosting; SPF for italiantechlandscape.com
-// already includes mx.ovh.com).
+// already includes mx.ovh.com) and forwards it to the client's Zapier webhook,
+// which loads the contact into their CRM (ADA).
 
 const LEADS_TO = ['max@latechmadeinitaly.com', 'floriana@latechmadeinitaly.com', 'r.salentini@gmail.com'];
 const LEADS_FROM = 'noreply@italiantechlandscape.com';
 const LEADS_FROM_NAME = 'Italian Tech Landscape';
-const MAX = ['name' => 80, 'email' => 254, 'company' => 120, 'role' => 120, 'message' => 2000];
+const MAX = ['name' => 80, 'email' => 254, 'phone' => 24, 'company' => 120, 'role' => 120, 'other' => 80, 'message' => 2000];
+// Zap "ITL": catches every lead (report and partner, told apart by "type") and creates the contact in ADA.
+// The hook URL is a secret (anyone holding it can post contacts into the CRM), so it lives outside the
+// public repo and outside public_html: /home/<ovh-user>/itl-config.php, returning ['zapier_hook' => 'https://…'].
+// Deploy Git never touches that folder. Without the file, leads still go out by email.
+const CONFIG_FILE = __DIR__ . '/../../itl-config.php';
+// Report downloads only from business addresses (client rule). Keep in step with site.js.
+const FREE_MAIL = '/@(gmail|googlemail|yahoo|ymail|outlook|hotmail|live|msn|icloud|me|mac|aol|libero|virgilio|tiscali|alice|tim|fastwebnet|inwind|email|katamail|gmx|proton|protonmail|pm|yandex|mail|zoho)\./i';
+const GENERIC_MAIL = '/^(info|contact|contacts|contatti|admin|office|segreteria|amministrazione|hello|mail|noreply|no-reply)@/i';
 const ALLOWED_ORIGINS = ['https://italiantechlandscape.com'];
 // Flood protection: per visitor, and for the whole site, so the team inbox can't be spammed
 const LIMIT_PER_IP = 5;       // submissions per IP...
@@ -38,6 +47,27 @@ function oneline($s) {
 }
 
 // Counts hits for $key inside a sliding window, in the system temp dir (outside the website folder)
+// POSTs the lead as JSON to Zapier. A failure is logged, never shown to the visitor: the email still reaches the team.
+function to_zapier($payload) {
+  $config = is_file(CONFIG_FILE) ? include CONFIG_FILE : [];
+  $hook = is_array($config) ? ($config['zapier_hook'] ?? '') : '';
+  if ($hook === '') { error_log('leads: no zapier_hook in ' . CONFIG_FILE); return false; }
+  $ch = curl_init($hook);
+  curl_setopt_array($ch, [
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_UNICODE),
+    CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CONNECTTIMEOUT => 4,
+    CURLOPT_TIMEOUT => 8,
+  ]);
+  curl_exec($ch);
+  $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  if ($code < 200 || $code >= 300) error_log('leads: zapier failed, HTTP ' . $code . ' ' . curl_error($ch));
+  curl_close($ch);
+  return $code >= 200 && $code < 300;
+}
+
 function over_limit($key, $max, $window) {
   $file = sys_get_temp_dir() . '/itl-leads-' . hash('sha256', $key . __FILE__);
   $fh = @fopen($file, 'c+');
@@ -78,19 +108,24 @@ $lead = [
   'lastName' => clean($body['lastName'] ?? '', MAX['name']),
   'name' => clean($body['name'] ?? '', MAX['name']),
   'company' => clean($body['company'] ?? '', MAX['company']),
+  'phone' => clean($body['phone'] ?? '', MAX['phone']),
   'role' => clean($body['role'] ?? '', MAX['role']),
-  'size' => clean($body['size'] ?? '', 20),
   'interest' => clean($body['interest'] ?? '', 80),
+  'interestOther' => clean($body['interestOther'] ?? '', MAX['other']),
   'source' => clean($body['source'] ?? '', 40),
+  'sourceOther' => clean($body['sourceOther'] ?? '', MAX['other']),
   'tier' => clean($body['tier'] ?? '', 20),
   'message' => clean($body['message'] ?? '', MAX['message']),
-  'newsletter' => ($body['newsletter'] ?? false) === true,
+  'terms' => ($body['terms'] ?? false) === true,
   'lang' => ($body['lang'] ?? '') === 'it' ? 'IT' : 'EN',
   'submittedAt' => clean($body['submittedAt'] ?? '', 40) ?: gmdate('c'),
 ];
 
 if ($type === 'report') {
-  foreach (['firstName', 'lastName', 'company', 'role', 'size', 'interest', 'source'] as $k) if ($lead[$k] === '') $errors[] = $k;
+  foreach (['firstName', 'lastName', 'phone', 'company', 'role', 'interest', 'source'] as $k) if ($lead[$k] === '') $errors[] = $k;
+  if ($lead['phone'] !== '' && !preg_match('/^[0-9 +().\-]{6,24}$/', $lead['phone'])) $errors[] = 'phone';
+  if (!$lead['terms']) $errors[] = 'terms';
+  if (preg_match(FREE_MAIL, $email) || preg_match(GENERIC_MAIL, $email)) $errors[] = 'email-business';
 } elseif ($type === 'partner') {
   foreach (['name', 'company'] as $k) if ($lead[$k] === '') $errors[] = $k;
 } else {
@@ -102,7 +137,7 @@ if ($errors) reply(422, ['ok' => false, 'errors' => $errors]);
 $report = $type === 'report';
 $who = $report ? $lead['firstName'] . ' ' . $lead['lastName'] : $lead['name'];
 $rows = $report
-  ? [['Nome', $who], ['Email', $email], ['Azienda', $lead['company']], ['Ruolo', $lead['role']], ['Dimensione azienda', $lead['size']], ['Categoria di interesse', $lead['interest']], ['Come ci ha conosciuto', $lead['source']], ['Newsletter', $lead['newsletter'] ? 'Sì' : 'No']]
+  ? [['Nome', $who], ['Email', $email], ['Telefono', $lead['phone']], ['Azienda', $lead['company']], ['Job title', $lead['role']], ['Categoria di interesse', $lead['interest'] . ($lead['interestOther'] !== '' ? ' — ' . $lead['interestOther'] : '')], ['Come ci ha conosciuto', $lead['source'] . ($lead['sourceOther'] !== '' ? ' — ' . $lead['sourceOther'] : '')], ['Consensi', 'Privacy (art. 13 GDPR) e termini e condizioni / iscrizione alla community: accettati']]
   : [['Nome', $who], ['Email', $email], ['Azienda', $lead['company']], ['Partnership', $lead['tier'] ?: 'Non ancora deciso'], ['Messaggio', $lead['message'] ?: '—']];
 $rows[] = ['Lingua del sito', $lead['lang']];
 $rows[] = ['Inviato il', $lead['submittedAt']];
@@ -119,10 +154,10 @@ $headers = [
   'From: ' . mb_encode_mimeheader(LEADS_FROM_NAME, 'UTF-8') . ' <' . LEADS_FROM . '>',
   'Reply-To: ' . oneline($email),
 ];
+$zapped = to_zapier(['type' => $type, 'email' => $email] + $lead + ['privacyConsent' => true, 'page' => clean($body['page'] ?? '', 120)]);
 $sent = mail(implode(', ', LEADS_TO), mb_encode_mimeheader($subject, 'UTF-8'), $html, implode("\r\n", $headers), '-f' . LEADS_FROM);
 
-if (!$sent) {
-  error_log('leads: mail() failed for ' . $type);
-  reply(502, ['ok' => false, 'error' => 'mail']);
-}
+// The lead counts as delivered if it reached the team by email or the CRM through Zapier
+if (!$sent) error_log('leads: mail() failed for ' . $type);
+if (!$sent && !$zapped) reply(502, ['ok' => false, 'error' => 'mail']);
 reply(200, ['ok' => true]);

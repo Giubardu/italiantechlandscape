@@ -414,6 +414,11 @@
     .gate-done:focus { outline: none; }
     .gate-done-mark { width: 52px; height: 52px; border-radius: 50%; background: rgba(62, 209, 209, .14); border: 1px solid var(--accent); position: relative; }
     .gate-done-mark::after { content: ""; position: absolute; left: 17px; top: 15px; width: 16px; height: 9px; border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); }
+    .gate-note { margin: 0; font-size: .86rem; line-height: 1.6; color: var(--on-ink-muted); }
+    .gate-note strong { color: var(--white); font-weight: 600; }
+    .check a { color: var(--accent); }
+    .register-inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(28px, 5vw, 72px); align-items: end; }
+    @media (max-width: 720px) { .register-inner { grid-template-columns: 1fr; } }
     .privacy-link { font-size: .8rem; color: var(--on-ink-muted); margin: -6px 0 0 34px; }
     .form-status { margin: 0; font-size: .9rem; min-height: 1.4em; }
     .form-status.ok { color: var(--accent); }
@@ -1123,6 +1128,18 @@
   </div>
 </section>
 
+<!-- ============ REGISTER A SOLUTION (form on latechmadeinitaly.com) ============ -->
+<section class="section deep register" id="register" aria-labelledby="register-title">
+  <div class="wrap register-inner">
+    <div class="section-head" style="margin:0">
+      <p class="eyebrow rv" data-en="ITL 2027 · 4th edition" data-it="ITL 2027 · 4ª edizione">ITL 2027 · 4th edition</p>
+      <h2 class="h2 tr" id="register-title"><span data-en="Register your solution for the 4th edition" data-it="Iscrivi la tua soluzione alla 4ª Edizione">Register your solution for the 4th edition</span></h2>
+      <p class="lede rv" style="--d:.15" data-en="Fill in the form FREE OF CHARGE with reliable, truthful data, which we will present in 2027." data-it="Compila il form GRATUITAMENTE con dati attendibili e veritieri, che presenteremo nel 2027.">Fill in the form FREE OF CHARGE with reliable, truthful data, which we will present in 2027.</p>
+    </div>
+    <div class="rv"><a class="btn btn-accent" href="https://www.latechmadeinitaly.com/registrazione-software-2027" target="_blank" rel="noopener"><span data-en="Register your solution" data-it="Iscrivi la tua soluzione">Register your solution</span> <span class="arrow" aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+
 <!-- ============ PRESS: figures, logo marquee, clippings slider ============ -->
 <section class="section paper" id="press" aria-labelledby="press-title">
   <div class="wrap">
@@ -1301,7 +1318,7 @@
     <div class="gate-head">
       <div style="display:grid;gap:10px">
         <h2 class="h3" id="gate-title" data-en="Download the 2026 report" data-it="Scarica il report 2026">Download the 2026 report</h2>
-        <p class="source" data-en="ITL 2026, 3rd edition. Leave your details and our team will contact you by email." data-it="ITL 2026, 3ª edizione. Lascia i tuoi dati e il nostro team ti contatterà via email.">ITL 2026, 3rd edition. Leave your details and our team will contact you by email.</p>
+        <p class="gate-note"><span data-en="Given the very high value of the content you are downloading, " data-it="Dato l'altissimo valore del contenuto che stai scaricando, ">Given the very high value of the content you are downloading, </span><strong data-en="we reserve the right not to send the report if the details entered are incorrect or random." data-it="ci riserviamo il diritto qualora fossero inseriti dati incorretti o introdotti a caso di non inoltrare il report.">we reserve the right not to send the report if the details entered are incorrect or random.</strong> <span data-en="We therefore recommend using real details (first name, last name, company and job title) and only business email addresses (" data-it="Pertanto consigliamo di usare dati reali (nome, cognome, azienda e job title) e di usare solo mail aziendali (">We therefore recommend using real details (first name, last name, company and job title) and only business email addresses (</span><strong data-en="no generic addresses, no info@, Gmail, Yahoo, Outlook, etc." data-it="non generiche, non info, Gmail, Yahoo, Outlook, etc.">no generic addresses, no info@, Gmail, Yahoo, Outlook, etc.</strong><span data-en="). Every request is reviewed in detail by the team; as it is not automated, verification can take some time." data-it="). Ogni richiesta viene analizzata in dettaglio dal team: non essendo automatizzata, la verifica può richiedere del tempo.">). Every request is reviewed in detail by the team; as it is not automated, verification can take some time.</span></p>
       </div>
       <button type="button" class="x" data-close aria-label="Close" data-en-aria="Close" data-it-aria="Chiudi">×</button>
     </div>
@@ -1324,9 +1341,15 @@
           <input id="r-last" name="lastName" autocomplete="family-name" required>
         </div>
       </div>
-      <div class="field">
-        <label for="r-email" data-en="Work email" data-it="Email di lavoro">Work email</label>
-        <input id="r-email" name="email" type="email" autocomplete="email" required>
+      <div class="field-row">
+        <div class="field">
+          <label for="r-phone" data-en="Phone" data-it="Telefono">Phone</label>
+          <input id="r-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9 +().\-]{6,24}" required>
+        </div>
+        <div class="field">
+          <label for="r-email" data-en="Business email" data-it="Email aziendale">Business email</label>
+          <input id="r-email" name="email" type="email" autocomplete="email" data-business-email required>
+        </div>
       </div>
       <div class="field-row">
         <div class="field">
@@ -1334,22 +1357,11 @@
           <input id="r-company" name="company" autocomplete="organization" required>
         </div>
         <div class="field">
-          <label for="r-role" data-en="Role" data-it="Ruolo">Role</label>
+          <label for="r-role" data-en="Job title" data-it="Job title">Job title</label>
           <input id="r-role" name="role" autocomplete="organization-title" required>
         </div>
       </div>
-      <div class="field">
-        <label for="r-size" data-en="Company size" data-it="Dimensione azienda">Company size</label>
-        <select id="r-size" name="size" required>
-          <option value="" data-en="Select" data-it="Seleziona">Select</option>
-          <option value="1-10" data-en="1–10 people" data-it="1–10 persone">1–10 people</option>
-          <option value="11-50" data-en="11–50 people" data-it="11–50 persone">11–50 people</option>
-          <option value="51-250" data-en="51–250 people" data-it="51–250 persone">51–250 people</option>
-          <option value="251+" data-en="251 or more" data-it="251 o più">251 or more</option>
-          <option value="public" data-en="Public administration" data-it="Pubblica amministrazione">Public administration</option>
-          <option value="university" data-en="University or research" data-it="Università o ricerca">University or research</option>
-        </select>
-      </div>
+      <div class="field-row">
       <div class="field">
         <label for="r-interest" data-en="Category of interest" data-it="Categoria di interesse">Category of interest</label>
         <select id="r-interest" name="interest" required>
@@ -1450,6 +1462,12 @@
         </select>
       </div>
       <div class="field">
+        <label for="r-interest-other" data-en="Not listed? Tell us here" data-it="Se non compare, indica qui">Not listed? Tell us here</label>
+        <input id="r-interest-other" name="interestOther" maxlength="80">
+      </div>
+      </div>
+      <div class="field-row">
+      <div class="field">
         <label for="r-source" data-en="How did you hear about us?" data-it="Come hai conosciuto lo studio?">How did you hear about us?</label>
         <select id="r-source" name="source" required>
           <option value="" data-en="Select" data-it="Seleziona">Select</option>
@@ -1461,16 +1479,20 @@
           <option value="Altro" data-en="Other" data-it="Altro">Other</option>
         </select>
       </div>
+      <div class="field">
+        <label for="r-source-other" data-en="Not listed? Tell us here" data-it="Se non compare, indica qui">Not listed? Tell us here</label>
+        <input id="r-source-other" name="sourceOther" maxlength="80">
+      </div>
+      </div>
       <label class="check">
         <input type="checkbox" name="consent" required>
-        <span data-en="I have read the privacy notice and agree that my data is processed to send me the report and to follow up on it. Required." data-it="Ho letto l'informativa privacy e acconsento al trattamento dei miei dati per inviarmi il report e per ricontattarmi in merito. Obbligatorio.">I have read the privacy notice and agree that my data is processed to send me the report and to follow up on it. Required.</span>
+        <span><span data-en="By filling in the form and clicking the button below, I authorise the processing of my personal data under art. 13 of the GDPR, as set out in the " data-it="Compilando il form e facendo click sul pulsante sotto autorizzo il trattamento dei miei dati personali ai sensi dell'art. 13 del GDPR come da ">By filling in the form and clicking the button below, I authorise the processing of my personal data under art. 13 of the GDPR, as set out in the </span><a href="https://www.latechmadeinitaly.com/privacy" target="_blank" rel="noopener" data-en="privacy notice" data-it="informativa privacy">privacy notice</a>.</span>
       </label>
-      <a class="privacy-link" href="https://www.latechmadeinitaly.com/privacy/" target="_blank" rel="noopener" data-en="Read the privacy notice ↗" data-it="Leggi l'informativa privacy ↗">Read the privacy notice ↗</a>
       <label class="check">
-        <input type="checkbox" name="newsletter">
-        <span data-en="Send me news about the Italian Tech Landscape and the event. Optional." data-it="Inviatemi notizie su Italian Tech Landscape e sull'evento. Facoltativo.">Send me news about the Italian Tech Landscape and the event. Optional.</span>
+        <input type="checkbox" name="terms" required>
+        <span><span data-en="Taking part includes joining the community, as provided in the " data-it="La partecipazione prevede l'iscrizione alla community così come previsto da ">Taking part includes joining the community, as provided in the </span><a href="https://www.latechmadeinitaly.com/termini-condizioni/" target="_blank" rel="noopener" data-en="terms and conditions" data-it="termini e condizioni">terms and conditions</a><span data-en=", which I declare I accept." data-it=" che dichiaro di accettare.">, which I declare I accept.</span></span>
       </label>
-      <button class="btn btn-accent btn-block" type="submit"><span data-en="Get the report" data-it="Ottieni il report">Get the report</span> <span class="arrow" aria-hidden="true">→</span></button>
+      <button class="btn btn-accent btn-block" type="submit"><span data-en="Download the 2026 report" data-it="Scarica report 2026">Download the 2026 report</span> <span class="arrow" aria-hidden="true">→</span></button>
       <p class="form-status" role="status" aria-live="polite"></p>
     </form>
   </div>

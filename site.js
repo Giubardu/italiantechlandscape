@@ -13,8 +13,8 @@
 
   /* ================= Language ================= */
   const MSG = {
-    en: { sending: "Sending…", invalid: "Please complete the required fields.", reportOk: "Thank you for your interest in the report. Our team will contact you by email soon.", partnerOk: "Thank you. We will reply to your enquiry shortly.", error: "Something went wrong. Please try again in a moment." },
-    it: { sending: "Invio in corso…", invalid: "Compila i campi obbligatori.", reportOk: "Grazie per l'interesse verso il report. Il nostro team ti contatterà presto via email.", partnerOk: "Grazie. Ti risponderemo a breve.", error: "Qualcosa non ha funzionato. Riprova tra poco." }
+    en: { sending: "Sending…", invalid: "Please complete the required fields.", business: "Please use your business email: Gmail, Yahoo, Outlook and generic addresses such as info@ are not accepted.", reportOk: "Thank you for your interest in the report. Our team will contact you by email soon.", partnerOk: "Thank you. We will reply to your enquiry shortly.", error: "Something went wrong. Please try again in a moment." },
+    it: { sending: "Invio in corso…", invalid: "Compila i campi obbligatori.", business: "Usa la tua email aziendale: Gmail, Yahoo, Outlook e indirizzi generici come info@ non sono accettati.", reportOk: "Grazie per l'interesse verso il report. Il nostro team ti contatterà presto via email.", partnerOk: "Grazie. Ti risponderemo a breve.", error: "Qualcosa non ha funzionato. Riprova tra poco." }
   };
   const TITLE = { en: "Italian Tech Landscape 2026 · The official report on Italian tech", it: "Italian Tech Landscape 2026 · Il report ufficiale del Tech Made in Italy" };
   // Each language has its own URL (/ and /it/) so search engines index both
@@ -405,10 +405,14 @@
     el.textContent = text;
     el.className = "form-status" + (kind ? " " + kind : "");
   }
+  // The report goes to business addresses only (client rule). Keep in step with api/leads.php.
+  const FREE_MAIL = /@(gmail|googlemail|yahoo|ymail|outlook|hotmail|live|msn|icloud|me|mac|aol|libero|virgilio|tiscali|alice|tim|fastwebnet|inwind|email|katamail|gmx|proton|protonmail|pm|yandex|mail|zoho)\./i;
+  const GENERIC_MAIL = /^(info|contact|contacts|contatti|admin|office|segreteria|amministrazione|hello|mail|noreply|no-reply)@/i;
+  const businessEmail = (v) => !FREE_MAIL.test(v) && !GENERIC_MAIL.test(v);
   function validate(form) {
     let ok = true;
     $$("[required]", form).forEach((f) => {
-      const valid = f.checkValidity() && (f.type !== "checkbox" || f.checked);
+      const valid = f.checkValidity() && (f.type !== "checkbox" || f.checked) && (!("businessEmail" in f.dataset) || businessEmail(f.value.trim()));
       f.setAttribute("aria-invalid", String(!valid));
       if (!valid && ok) f.focus();
       if (!valid) ok = false;
@@ -417,8 +421,7 @@
   }
   function serialise(form) {
     const data = Object.fromEntries(new FormData(form).entries());
-    data.newsletter = form.querySelector('[name="newsletter"]')?.checked === true;
-    data.consent = form.querySelector('[name="consent"]')?.checked === true;
+    $$('input[type="checkbox"]', form).forEach((c) => (data[c.name] = c.checked));
     data.lang = lang;
     data.page = location.pathname;
     data.submittedAt = new Date().toISOString();
@@ -427,7 +430,12 @@
   $$("form.form").forEach((form) => form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const m = MSG[lang];
-    if (!validate(form)) { setStatus(form, m.invalid, "err"); return; }
+    if (!validate(form)) {
+      const email = $("[data-business-email]", form);
+      const badEmail = email && email.value.trim() && email.checkValidity() && !businessEmail(email.value.trim());
+      setStatus(form, badEmail ? m.business : m.invalid, "err");
+      return;
+    }
     const submit = $('button[type="submit"]', form);
     submit.disabled = true;
     setStatus(form, m.sending, "");
