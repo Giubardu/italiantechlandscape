@@ -229,7 +229,7 @@
     .fill span.hl { color: var(--accent); }
     .statement-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: center; }
     .statement-map { width: 100%; height: auto; filter: brightness(2.4) saturate(1.2); }
-    @media (max-width: 720px) { .statement-grid { grid-template-columns: minmax(0, 1fr); } .statement-map { width: 60%; justify-self: end; margin-top: -8px; } }
+    @media (max-width: 720px) { .statement-grid { grid-template-columns: minmax(0, 1fr); } .statement-map { display: none; } }
     .audience-head { display: flex; justify-content: space-between; align-items: end; gap: 24px 48px; flex-wrap: wrap; margin: clamp(80px, 11vw, 140px) 0 clamp(36px, 5vw, 56px); }
     .audience-head .h2 { font-size: clamp(1.8rem, 3.6vw, 2.9rem); max-width: 22ch; }
     .audience { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: 0; border-top: 1px solid var(--line); }
@@ -1278,7 +1278,7 @@
 <!-- Mobile CTA bar -->
 <div class="mbar" id="mbar">
   <button type="button" class="btn btn-accent" data-open-gate><span data-en="Download report" data-it="Scarica il report">Download report</span></button>
-  <a class="btn btn-ghost" href="https://checkout.isweek.it/b/5kQaEWgvt7GN5LDa3IcV21F" target="_blank" rel="noopener"><span data-en="Get a ticket" data-it="Biglietto">Get a ticket</span></a>
+  <a class="btn btn-ghost" href="#ticket"><span data-en="Get a ticket" data-it="Biglietto">Get a ticket</span></a>
 </div>
 
 <footer class="site-footer" id="privacy">
