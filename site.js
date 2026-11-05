@@ -387,6 +387,8 @@
     window.fbq("track", "PageView");
   }
   const track = (event, params) => { if (window.fbq) window.fbq("track", event, params); };
+  // Every "Buy the ticket" link opens the Stripe checkout in a new tab; the purchase itself is tracked on /it/grazie/ (grazie.js).
+  $$('a[href*="checkout.isweek.it"]').forEach((a) => a.addEventListener("click", () => track("InitiateCheckout", { value: 99, currency: "EUR" })));
   if (banner) {
     const choice = store("itl-consent");
     if (choice === "granted") loadPixel();

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Grazie · Italian Tech Landscape 2027</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#041634">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/poppins-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face { font-family: "Poppins"; font-weight: 400; font-display: swap; src: url("/assets/fonts/poppins-400-latin.woff2") format("woff2"); }
+    @font-face { font-family: "Poppins"; font-weight: 600; font-display: swap; src: url("/assets/fonts/poppins-600-latin.woff2") format("woff2"); }
+    @font-face { font-family: "Poppins"; font-weight: 800; font-display: swap; src: url("/assets/fonts/poppins-800-latin.woff2") format("woff2"); }
+    :root { --blue: #0B3C7D; --accent: #3ED1D1; --ink: #041634; --ink-2: #072657; --white: #FFFFFF; --on-ink-muted: #C7CFDC; --line: rgba(199, 207, 220, .2); --font: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif; --gutter: 16px; }
+    @media (min-width: 720px) { :root { --gutter: 32px; } }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { background: var(--ink); }
+    body { margin: 0; min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 48px var(--gutter); background: radial-gradient(120% 80% at 50% 0%, var(--ink-2), var(--ink) 70%); color: var(--white); font: 400 1rem/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    [hidden] { display: none !important; }
+    main { width: min(100%, 640px); display: grid; gap: 22px; justify-items: start; }
+    .logo { width: 88px; height: auto; margin-bottom: 10px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 12px; margin: 0; font: 600 .78rem/1 var(--font); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+    .eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; }
+    h1 { margin: 0; font-weight: 800; font-size: clamp(2.3rem, 6vw, 3.6rem); line-height: 1.02; letter-spacing: -.035em; text-wrap: balance; }
+    p { margin: 0; color: var(--on-ink-muted); max-width: 54ch; }
+    .details { display: grid; gap: 4px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 16px; width: 100%; }
+    .details strong { color: var(--white); font-weight: 600; }
+    .en { font-size: .88rem; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: .85rem 1.5rem; font: 600 .95rem/1 var(--font); text-decoration: none; border: 1px solid transparent; border-radius: 999px; cursor: pointer; background: var(--accent); color: var(--ink); transition: background .3s; }
+    .btn:hover { background: var(--white); }
+    .btn-ghost { background: transparent; color: var(--white); border-color: rgba(255, 255, 255, .4); }
+    .btn-ghost:hover { background: rgba(255, 255, 255, .08); }
+    .cookie { position: fixed; left: var(--gutter); right: var(--gutter); bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 70; max-width: 440px; display: grid; gap: 14px; padding: 20px; background: var(--ink-2); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 18px 50px rgba(0, 0, 0, .45); font-size: .88rem; line-height: 1.55; }
+    .cookie p { color: var(--on-ink-muted); }
+    .cookie a { color: var(--accent); }
+    .cookie-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .cookie .btn { min-height: 46px; padding: .6rem 1rem; font-size: .88rem; }
+  </style>
+</head>
+<body>
+<main>
+  <a href="/it/"><img class="logo" src="/assets/logos/itl-negative.svg" alt="Italian Tech Landscape" width="88" height="88"></a>
+  <p class="eyebrow">Acquisto completato</p>
+  <h1>Grazie, ci vediamo all'ITL 2027.</h1>
+  <p>Il pagamento è andato a buon fine e il tuo posto alla presentazione della 4ª edizione è confermato.</p>
+  <div class="details">
+    <p><strong>24 febbraio 2027</strong></p>
+    <p>Monterosa 91, Via Monte Rosa 91, Milano</p>
+  </div>
+  <p class="en">Thank you: your payment went through and your seat at the 4th edition presentation is confirmed.</p>
+  <a class="btn" href="/it/">Torna al sito</a>
+</main>
+
+<section class="cookie" id="cookie" aria-labelledby="cookie-title" hidden>
+  <p><strong id="cookie-title">Cookie</strong></p>
+  <p>Con il tuo consenso usiamo il pixel di Meta per misurare le nostre campagne su Facebook e Instagram. Se lo rifiuti, il sito funziona esattamente allo stesso modo.</p>
+  <p><a href="https://www.latechmadeinitaly.com/privacy/" target="_blank" rel="noopener">Leggi l'informativa privacy ↗</a></p>
+  <div class="cookie-actions">
+    <button type="button" class="btn btn-ghost" data-consent="denied">Rifiuta</button>
+    <button type="button" class="btn btn-ghost" data-consent="granted">Accetta</button>
+  </div>
+</section>
+<script src="/grazie.js"></script>
+</body>
+</html>
