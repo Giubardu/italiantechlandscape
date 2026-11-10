@@ -379,6 +379,19 @@
     run();
   })($("#invite"));
   $$("[data-close]").forEach((b) => b.addEventListener("click", () => b.closest("dialog").close()));
+  /* ================= "Get your pass" buttons: go to the pricing section, never straight to the checkout =================
+     Desktop lands on the event section (the €99 card sits sticky beside it); on mobile the layout stacks,
+     so the jump goes to the €99 card itself. Only the card's "Buy the ticket" button opens the Stripe checkout. */
+  const stacked = matchMedia("(max-width: 960px)");
+  $$("a[data-to-ticket]").forEach((a) => a.addEventListener("click", (e) => {
+    const id = stacked.matches ? "ticket" : "event";
+    const target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    a.closest("dialog[open]")?.close();
+    target.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" });
+    history.replaceState(null, "", "#" + id);
+  }));
   gate.addEventListener("click", (e) => { if (e.target === gate) gate.close(); });
 
   /* ================= Cookie consent + Meta pixel =================
