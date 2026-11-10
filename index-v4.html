@@ -441,6 +441,25 @@
     .hero-stack { width: 100%; }
     .hero-stack .cover:nth-child(3) { animation: float 7s ease-in-out infinite; }
     .js .hero-stack .cover { transition-delay: 1.2s; }
+    .cover-photo { background: var(--ink-2); }
+    .cover-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    /* hero: fan the layers wider so the second image (the landscape map) reads behind the cover */
+    .hero-stack .cover:nth-child(1) { transform: rotate(-9deg) translate(-44px, 34px); opacity: .4; }
+    .hero-stack .cover:nth-child(2) { transform: rotate(-5deg) translate(-30px, 18px); opacity: 1; }
+    .hero-actions { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .cta-micro { margin: 0; font-size: .86rem; color: var(--on-ink-muted); letter-spacing: .01em; }
+    .rv > .cta-micro { margin-top: 12px; }
+
+    /* Mission band: founder video (YouTube loads only on click) */
+    .mission .download-title { font-size: clamp(2.6rem, 6vw, 5.2rem); line-height: .92; }
+    .mission .download-inner { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
+    .yt { position: relative; margin: 0; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; background: #000; border: 1px solid rgba(199, 207, 220, .28); box-shadow: 0 50px 90px -30px rgba(0, 0, 0, .7); }
+    .yt-play, .yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; padding: 0; background: none; cursor: pointer; }
+    .yt-play img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease-out); }
+    .yt-play:hover img, .yt-play:focus-visible img { transform: scale(1.03); }
+    .yt-icon { position: absolute; right: 4%; bottom: 7%; width: clamp(52px, 13%, 76px); aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: var(--ink); box-shadow: 0 12px 30px -8px rgba(0, 0, 0, .6); transition: transform .4s var(--ease-out); }
+    .yt-icon svg { margin-left: 4px; }
+    .yt-play:hover .yt-icon, .yt-play:focus-visible .yt-icon { transform: scale(1.08); }
 
     /* ---------- About ---------- */
     .about { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(40px, 6vw, 88px); align-items: center; }
@@ -562,7 +581,7 @@
       .speakers { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
     @media (max-width: 960px) {
-      .hero-grid, .event, .partner-grid, .download-inner, .about { grid-template-columns: minmax(0, 1fr); }
+      .hero-grid, .event, .partner-grid, .download-inner, .mission .download-inner, .about { grid-template-columns: minmax(0, 1fr); }
       .cover-wrap { justify-self: start; width: min(100%, 520px); }
       .hero-partner { justify-content: flex-start; }
       .ticket { position: relative; top: auto; }
@@ -591,8 +610,10 @@
       .stack { width: calc(100% - 40px); justify-self: center; margin: 12px 0 8px; }
       .stack .cover:nth-child(1) { transform: rotate(-5deg) translate(-8px, 8px); }
       .stack .cover:nth-child(2) { transform: rotate(-2deg) translate(-4px, 3px); }
+      .hero-stack .cover:nth-child(1) { transform: rotate(-6deg) translate(-12px, 12px); }
+      .hero-stack .cover:nth-child(2) { transform: rotate(-3deg) translate(-8px, 6px); }
       body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
-      .mbar { position: fixed; inset: auto 0 0; z-index: 55; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(4, 22, 52, .92); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); border-top: 1px solid var(--line); transform: translateY(110%); transition: transform .45s var(--ease-out); }
+      .mbar { position: fixed; inset: auto 0 0; z-index: 55; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(4, 22, 52, .92); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); border-top: 1px solid var(--line); transform: translateY(110%); transition: transform .45s var(--ease-out); }
       .mbar.show { transform: none; }
       .mbar .btn { min-height: 48px; padding: .7rem .6rem; font-size: .84rem; }
     }
@@ -655,10 +676,8 @@
       </h1>
       <p class="lede after after-1" data-en="Every edition maps the companies, solutions and categories of technology developed in Italy, checked against official records and validated with the companies themselves." data-it="Ogni edizione mappa aziende, soluzioni e categorie della tecnologia sviluppata in Italia, verificate sui registri ufficiali e validate con le aziende stesse.">Every edition maps the companies, solutions and categories of technology developed in Italy, checked against official records and validated with the companies themselves.</p>
       <div class="hero-actions after after-2">
-        <button type="button" class="btn btn-primary" data-open-gate>
-          <span data-en="Download the 2026 report" data-it="Scarica il report 2026">Download the 2026 report</span> <span class="arrow" aria-hidden="true">→</span>
-        </button>
-        <a class="btn btn-ghost" href="#ticket"><span data-en="Get a ticket · 24 Feb 2027" data-it="Biglietto · 24 feb 2027">Get a ticket · 24 Feb 2027</span></a>
+        <a class="btn btn-accent" href="https://checkout.isweek.it/b/5kQaEWgvt7GN5LDa3IcV21F" target="_blank" rel="noopener"><span data-en="Get your pass" data-it="Acquista il tuo pass">Get your pass</span> <span class="arrow" aria-hidden="true">→</span></a>
+        <p class="cta-micro" data-en="Milan, 24 February · 4th edition presentation" data-it="Milano, 24 febbraio · presentazione 4ª edizione">Milan, 24 February · 4th edition presentation</p>
       </div>
       <dl class="hero-facts after after-3">
         <div><dt data-en="Solutions mapped" data-it="Soluzioni mappate">Solutions mapped</dt><dd class="num" data-count="1652">1.652</dd></div>
@@ -671,16 +690,8 @@
     <div class="cover-wrap">
       <div class="stack hero-stack">
         <div class="cover" aria-hidden="true"></div>
-        <div class="cover" aria-hidden="true"></div>
-        <figure class="cover" aria-label="ITL 2026 report cover">
-          <span class="cover-pill" data-en="3rd edition" data-it="3ª edizione">3rd edition</span>
-          <span class="cover-date" data-en="APRIL 2026" data-it="APRILE 2026">APRIL 2026</span>
-          <img class="cover-map" src="assets/img/italy-map.webp" alt="" width="800" height="795">
-          <div class="cover-center">
-            <img class="cover-logo" src="assets/logos/itl-wordmark.svg" alt="Italian Tech Landscape" width="340" height="124">
-            <p class="cover-sub">#1 Italian report on the Tech Made in Italy</p>
-          </div>
-        </figure>
+        <figure class="cover cover-photo" aria-hidden="true"><img src="assets/img/letech.webp" alt="" width="1200" height="668"></figure>
+        <figure class="cover cover-photo"><img src="assets/img/copertina.webp" alt="Italian Tech Landscape, 4th edition: #1 Italian report on the Tech Made in Italy" width="1200" height="668" fetchpriority="high"></figure>
       </div>
       <p class="hero-partner after after-4">
         <span data-en="Main partner" data-it="Main partner">Main partner</span>
@@ -1100,18 +1111,22 @@
         </div>
         <div class="field-row">
           <div class="field">
+            <label for="p-phone" data-en="Phone" data-it="Telefono">Phone</label>
+            <input id="p-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9 +().\-]{6,24}" required>
+          </div>
+          <div class="field">
             <label for="p-company" data-en="Company" data-it="Azienda">Company</label>
             <input id="p-company" name="company" autocomplete="organization" required>
           </div>
-          <div class="field">
+        </div>
+        <div class="field">
             <label for="p-tier" data-en="Partner tier" data-it="Tipo di partnership">Partner tier</label>
-            <select id="p-tier" name="tier">
-              <option value="" data-en="Not sure yet" data-it="Non ancora deciso">Not sure yet</option>
+            <select id="p-tier" name="tier" required>
+              <option value="" disabled selected hidden data-en="Choose a tier" data-it="Scegli il tipo">Choose a tier</option>
               <option value="main">Main Partner</option>
               <option value="category">Category Partner</option>
               <option value="supportive">Supportive Partner</option>
             </select>
-          </div>
         </div>
         <div class="field">
           <label for="p-message" data-en="Message (optional)" data-it="Messaggio (facoltativo)">Message (optional)</label>
@@ -1222,31 +1237,22 @@
 </section>
 
 <!-- ============ DOWNLOAD BAND ============ -->
-<section class="section download" id="download" aria-labelledby="download-title">
+<section class="section download mission" id="mission" aria-labelledby="mission-title">
   <div class="wrap download-inner">
     <div style="display:grid;gap:30px">
-      <p class="eyebrow rv" data-en="ITL 2026 · 3rd edition" data-it="ITL 2026 · 3ª edizione">ITL 2026 · 3rd edition</p>
-      <h2 class="download-title tr" id="download-title"><span data-en="Download the full report." data-it="Scarica il report completo.">Download the full report.</span></h2>
-      <ul class="download-meta rv">
-        <li data-en="176 pages" data-it="176 pagine">176 pages</li>
-        <li data-en="In English" data-it="In inglese">In English</li>
-        <li>PDF · 42 MB</li>
-      </ul>
-      <div class="rv"><button type="button" class="btn btn-accent" data-open-gate><span data-en="Download the 2026 report" data-it="Scarica il report 2026">Download the 2026 report</span> <span class="arrow" aria-hidden="true">→</span></button></div>
+      <p class="eyebrow rv" data-en="ITL · The Mission" data-it="ITL · La Mission">ITL · The Mission</p>
+      <h2 class="download-title tr" id="mission-title"><span data-en="The mission, told by the founder." data-it="La mission raccontata dal founder.">The mission, told by the founder.</span></h2>
+      <div class="rv">
+        <a class="btn btn-accent" href="https://checkout.isweek.it/b/5kQaEWgvt7GN5LDa3IcV21F" target="_blank" rel="noopener"><span data-en="Get your pass" data-it="Acquista il tuo pass">Get your pass</span> <span class="arrow" aria-hidden="true">→</span></a>
+        <p class="cta-micro" data-en="Milan, 24 February · 4th edition presentation" data-it="Milano, 24 febbraio · presentazione 4ª edizione">Milan, 24 February · 4th edition presentation</p>
+      </div>
     </div>
-    <div class="stack rv" aria-hidden="true">
-      <div class="cover"></div>
-      <div class="cover"></div>
-      <figure class="cover">
-          <span class="cover-pill" data-en="3rd edition" data-it="3ª edizione">3rd edition</span>
-          <span class="cover-date" data-en="APRIL 2026" data-it="APRILE 2026">APRIL 2026</span>
-          <img class="cover-map" loading="lazy" src="assets/img/italy-map.webp" alt="" width="800" height="795">
-          <div class="cover-center">
-            <img class="cover-logo" src="assets/logos/itl-wordmark.svg" alt="Italian Tech Landscape" width="340" height="124">
-            <p class="cover-sub">#1 Italian report on the Tech Made in Italy</p>
-          </div>
-        </figure>
-    </div>
+    <figure class="yt rv" data-yt="XkXXncGPLF4">
+      <button type="button" class="yt-play" data-en-aria="Play the video: the ITL mission, told by the founder" data-it-aria="Guarda il video: la mission di ITL raccontata dal founder" aria-label="Play the video: the ITL mission, told by the founder">
+        <img src="assets/img/mission-cover.webp" alt="" loading="lazy" width="1600" height="900">
+        <span class="yt-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span>
+      </button>
+    </figure>
   </div>
 </section>
 
@@ -1278,8 +1284,7 @@
 
 <!-- Mobile CTA bar -->
 <div class="mbar" id="mbar">
-  <button type="button" class="btn btn-accent" data-open-gate><span data-en="Download report" data-it="Scarica il report">Download report</span></button>
-  <a class="btn btn-ghost" href="#ticket"><span data-en="Get a ticket" data-it="Biglietto">Get a ticket</span></a>
+  <a class="btn btn-accent" href="#ticket"><span data-en="Get your pass · 24 Feb" data-it="Acquista il tuo pass · 24 feb">Get your pass · 24 Feb</span></a>
 </div>
 
 <footer class="site-footer" id="privacy">

@@ -127,7 +127,8 @@ if ($type === 'report') {
   if (!$lead['terms']) $errors[] = 'terms';
   if (preg_match(FREE_MAIL, $email) || preg_match(GENERIC_MAIL, $email)) $errors[] = 'email-business';
 } elseif ($type === 'partner') {
-  foreach (['name', 'company'] as $k) if ($lead[$k] === '') $errors[] = $k;
+  foreach (['name', 'phone', 'company', 'tier'] as $k) if ($lead[$k] === '') $errors[] = $k;
+  if ($lead['phone'] !== '' && !preg_match('/^[0-9 +().\-]{6,24}$/', $lead['phone'])) $errors[] = 'phone';
 } else {
   $errors[] = 'type';
 }
@@ -138,7 +139,7 @@ $report = $type === 'report';
 $who = $report ? $lead['firstName'] . ' ' . $lead['lastName'] : $lead['name'];
 $rows = $report
   ? [['Nome', $who], ['Email', $email], ['Telefono', $lead['phone']], ['Azienda', $lead['company']], ['Job title', $lead['role']], ['Categoria di interesse', $lead['interest'] . ($lead['interestOther'] !== '' ? ' — ' . $lead['interestOther'] : '')], ['Come ci ha conosciuto', $lead['source'] . ($lead['sourceOther'] !== '' ? ' — ' . $lead['sourceOther'] : '')], ['Consensi', 'Privacy (art. 13 GDPR) e termini e condizioni / iscrizione alla community: accettati']]
-  : [['Nome', $who], ['Email', $email], ['Azienda', $lead['company']], ['Partnership', $lead['tier'] ?: 'Non ancora deciso'], ['Messaggio', $lead['message'] ?: '—']];
+  : [['Nome', $who], ['Email', $email], ['Telefono', $lead['phone']], ['Azienda', $lead['company']], ['Partnership', $lead['tier']], ['Messaggio', $lead['message'] ?: '—']];
 $rows[] = ['Lingua del sito', $lead['lang']];
 $rows[] = ['Inviato il', $lead['submittedAt']];
 

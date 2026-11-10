@@ -339,6 +339,17 @@
   });
   lb.addEventListener("click", (e) => { if (e.target === lb || e.target.classList.contains("lb-stage")) lb.close(); });
 
+  /* ================= YouTube facade: the player (and its cookies) loads only when the visitor presses play ================= */
+  $$("[data-yt]").forEach((fig) => $(".yt-play", fig).addEventListener("click", function () {
+    const f = document.createElement("iframe");
+    f.src = "https://www.youtube-nocookie.com/embed/" + fig.dataset.yt + "?autoplay=1&rel=0&playsinline=1";
+    f.title = this.getAttribute("aria-label");
+    f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+    f.allowFullscreen = true;
+    this.replaceWith(f);
+    f.focus();
+  }));
+
   /* ================= Report gate ================= */
   const gate = $("#gate");
   const store = (k, v) => { try { v === undefined ? (v = localStorage.getItem(k)) : localStorage.setItem(k, v); } catch (e) { /* ignore */ } return v; };
