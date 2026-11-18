@@ -124,6 +124,10 @@
     .paper .btn-ghost { border-color: var(--blue); color: var(--blue); }
     .paper .btn-ghost::before { background: var(--blue); }
     .paper .btn-ghost:hover { color: var(--white); }
+    .paper .btn-accent::before { background: var(--ink); }
+    .paper .btn-accent:hover { color: var(--white); }
+    .section-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 24px; margin-top: clamp(36px, 5vw, 56px); text-align: center; }
+    .paper .section-cta .cta-micro { color: var(--on-paper-muted); }
     .btn-block { width: 100%; }
     .arrow { display: inline-block; transition: transform .35s var(--ease-out); }
     .btn:hover .arrow { transform: translateX(5px); }
@@ -160,10 +164,8 @@
 
     /* Line mask rise */
     .lines .line { display: block; overflow: hidden; padding-bottom: .06em; margin-bottom: -.06em; white-space: nowrap; }
-    /* three fixed lines in both languages: sized so the longest ("Tech Made in Italy.") fits the copy column */
-    .hero .display { font-size: clamp(3.1rem, 6.6vw, 6rem); }
-    /* Italian line 3 ("Tech Made in Italy.") is about 1.6x the English one: smaller size keeps it to 3 lines */
-    html[lang="it"] .hero .display { font-size: clamp(2.4rem, 4.8vw, 4.4rem); }
+    /* three fixed lines; one size for both languages, set by the longest line (Italian "Tech Made in Italy.") */
+    .hero .display { font-size: clamp(2.4rem, 4.8vw, 4.4rem); }
     .lines .line > span { display: inline-block; }
     .js .lines .line > span { transform: translateY(108%); animation: rise var(--dur-hero) var(--ease-out) forwards; }
     .js .lines .line:nth-child(2) > span { animation-delay: var(--stagger); }
@@ -677,7 +679,7 @@
       </h1>
       <p class="lede after after-1" data-en="Every edition maps the companies, solutions and categories of technology developed in Italy, checked against official records and validated with the companies themselves." data-it="Ogni edizione mappa aziende, soluzioni e categorie della tecnologia sviluppata in Italia, verificate sui registri ufficiali e validate con le aziende stesse.">Ogni edizione mappa aziende, soluzioni e categorie della tecnologia sviluppata in Italia, verificate sui registri ufficiali e validate con le aziende stesse.</p>
       <div class="hero-actions after after-2">
-        <a class="btn btn-accent" href="#event" data-to-ticket><span data-en="Get your pass" data-it="Acquista il tuo pass">Acquista il tuo pass</span> <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn-accent" href="#event" data-to-ticket><span data-en="Get your pass" data-it="Acquista il tuo Pass">Acquista il tuo Pass</span> <span class="arrow" aria-hidden="true">→</span></a>
         <p class="cta-micro" data-en="Milan, 24 February · 4th edition presentation" data-it="Milano, 24 febbraio · presentazione 4ª edizione">Milano, 24 febbraio · presentazione 4ª edizione</p>
       </div>
       <dl class="hero-facts after after-3">
@@ -881,7 +883,7 @@
     </div>
 
     <aside class="ticket rv" id="ticket" aria-labelledby="ticket-title">
-      <h3 id="ticket-title" class="h3" data-en="Ticket" data-it="Biglietto">Biglietto</h3>
+      <h3 id="ticket-title" class="h3" data-en="Pass" data-it="Pass">Pass</h3>
       <p class="price num"><span data-count="99" data-prefix="€">€99</span><small data-en="per person" data-it="a persona">a persona</small></p>
       <p class="seats"><strong class="num" data-count="400">400</strong><span data-en="seats available in the auditorium" data-it="posti in auditorium">posti in auditorium</span></p>
       <ul class="included">
@@ -890,7 +892,7 @@
         <li data-en="Executive lunch" data-it="Pranzo executive">Pranzo executive</li>
         <li data-en="Evening aperitivo and networking" data-it="Aperitivo e networking serale">Aperitivo e networking serale</li>
       </ul>
-      <a class="btn btn-accent btn-block" href="https://checkout.isweek.it/b/5kQaEWgvt7GN5LDa3IcV21F" target="_blank" rel="noopener"><span data-en="Buy the ticket" data-it="Acquista il biglietto">Acquista il biglietto</span> <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="btn btn-accent btn-block" href="https://checkout.isweek.it/b/5kQaEWgvt7GN5LDa3IcV21F" target="_blank" rel="noopener"><span data-en="Get your pass" data-it="Acquista il tuo Pass">Acquista il tuo Pass</span> <span class="arrow" aria-hidden="true">→</span></a>
       <p class="fine" data-en="Payment is handled by the external checkout." data-it="Il pagamento avviene sul sistema di checkout esterno.">Il pagamento avviene sul sistema di checkout esterno.</p>
     </aside>
   </div>
@@ -995,6 +997,10 @@
       </div>
     </li>
     </ul>
+    <div class="section-cta rv">
+      <a class="btn btn-accent" href="#event" data-to-ticket><span data-en="Get your pass" data-it="Acquista il tuo Pass">Acquista il tuo Pass</span> <span class="arrow" aria-hidden="true">→</span></a>
+      <p class="cta-micro" data-en="Milan, 24 February · 4th edition presentation" data-it="Milano, 24 febbraio · presentazione 4ª edizione">Milano, 24 febbraio · presentazione 4ª edizione</p>
+    </div>
   </div>
 </section>
 
@@ -1234,6 +1240,10 @@
         <li><img src="/assets/logos/blue/the-italian-version-o-r.webp" alt="The Italian Version" loading="lazy" width="357" height="36" style="--h:18px"></li>
       </ul>
     </div>
+    <div class="section-cta rv">
+      <a class="btn btn-accent" href="#event" data-to-ticket><span data-en="Get your pass" data-it="Acquista il tuo Pass">Acquista il tuo Pass</span> <span class="arrow" aria-hidden="true">→</span></a>
+      <p class="cta-micro" data-en="Milan, 24 February · 4th edition presentation" data-it="Milano, 24 febbraio · presentazione 4ª edizione">Milano, 24 febbraio · presentazione 4ª edizione</p>
+    </div>
   </div>
 </section>
 
@@ -1244,7 +1254,7 @@
       <p class="eyebrow rv" data-en="ITL · The Mission" data-it="ITL · La Mission">ITL · La Mission</p>
       <h2 class="download-title tr" id="mission-title"><span data-en="The mission, told by the founder." data-it="La mission raccontata dal founder.">La mission raccontata dal founder.</span></h2>
       <div class="rv">
-        <a class="btn btn-accent" href="#event" data-to-ticket><span data-en="Get your pass" data-it="Acquista il tuo pass">Acquista il tuo pass</span> <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn-accent" href="#event" data-to-ticket><span data-en="Get your pass" data-it="Acquista il tuo Pass">Acquista il tuo Pass</span> <span class="arrow" aria-hidden="true">→</span></a>
         <p class="cta-micro" data-en="Milan, 24 February · 4th edition presentation" data-it="Milano, 24 febbraio · presentazione 4ª edizione">Milano, 24 febbraio · presentazione 4ª edizione</p>
       </div>
     </div>
@@ -1285,7 +1295,7 @@
 
 <!-- Mobile CTA bar -->
 <div class="mbar" id="mbar">
-  <a class="btn btn-accent" href="#ticket" data-to-ticket><span data-en="Get your pass · 24 Feb" data-it="Acquista il tuo pass · 24 feb">Acquista il tuo pass · 24 feb</span></a>
+  <a class="btn btn-accent" href="#ticket" data-to-ticket><span data-en="Get your pass · 24 Feb" data-it="Acquista il tuo Pass · 24 feb">Acquista il tuo Pass · 24 feb</span></a>
 </div>
 
 <footer class="site-footer" id="privacy">
@@ -1530,7 +1540,7 @@
     </ul>
     <div class="invite-buy">
       <p class="price num">€99<small data-en="per person" data-it="a persona">a persona</small></p>
-      <a class="btn btn-accent" href="#event" data-to-ticket><span data-en="Get your pass" data-it="Acquista il tuo pass">Acquista il tuo pass</span> <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="btn btn-accent" href="#event" data-to-ticket><span data-en="Get your pass" data-it="Acquista il tuo Pass">Acquista il tuo Pass</span> <span class="arrow" aria-hidden="true">→</span></a>
     </div>
     <button type="button" class="invite-later" data-close data-en="Maybe later" data-it="Magari più tardi">Magari più tardi</button>
   </div>

@@ -381,7 +381,7 @@
   $$("[data-close]").forEach((b) => b.addEventListener("click", () => b.closest("dialog").close()));
   /* ================= "Get your pass" buttons: go to the pricing section, never straight to the checkout =================
      Desktop lands on the event section (the €99 card sits sticky beside it); on mobile the layout stacks,
-     so the jump goes to the €99 card itself. Only the card's "Buy the ticket" button opens the Stripe checkout. */
+     so the jump goes to the €99 card itself. Only the card's "Get your pass" button opens the Stripe checkout. */
   const stacked = matchMedia("(max-width: 960px)");
   $$("a[data-to-ticket]").forEach((a) => a.addEventListener("click", (e) => {
     const id = stacked.matches ? "ticket" : "event";
@@ -411,7 +411,7 @@
     window.fbq("track", "PageView");
   }
   const track = (event, params) => { if (window.fbq) window.fbq("track", event, params); };
-  // Every "Buy the ticket" link opens the Stripe checkout in a new tab; the purchase itself is tracked on /it/grazie/ (grazie.js).
+  // Every checkout link opens the Stripe checkout in a new tab; the purchase itself is tracked on /it/grazie/ (grazie.js).
   $$('a[href*="checkout.isweek.it"]').forEach((a) => a.addEventListener("click", () => track("InitiateCheckout", { value: 99, currency: "EUR" })));
   if (banner) {
     const choice = store("itl-consent");
