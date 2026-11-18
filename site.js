@@ -409,10 +409,41 @@
     document.head.append(s);
     window.fbq("init", PIXEL_ID);
     window.fbq("track", "PageView");
+    flushTracking();
   }
   const track = (event, params) => { if (window.fbq) window.fbq("track", event, params); };
   // Every checkout link opens the Stripe checkout in a new tab; the purchase itself is tracked on /it/grazie/ (grazie.js).
   $$('a[href*="checkout.isweek.it"]').forEach((a) => a.addEventListener("click", () => track("InitiateCheckout", { value: 99, currency: "EUR" })));
+
+  /* ViewContent: the €99 Pass card is on screen (half of it, once per page view).
+     PageScroll (custom event): scroll depth 25 / 50 / 75 / 100 %, each once per page view.
+     Both wait for consent: what happened before Accept is sent as soon as the pixel loads (flushTracking). */
+  const PASS = { content_name: "ITL Pass · 24 Feb", content_type: "product", content_ids: ["itl-pass"], value: 99, currency: "EUR" };
+  let passSeen = false, passSent = false, maxDepth = 0;
+  const depthSent = new Set();
+  function flushTracking() {
+    if (!window.fbq) return;
+    if (passSeen && !passSent) { passSent = true; track("ViewContent", PASS); }
+    [25, 50, 75, 100].forEach((p) => {
+      if (maxDepth >= p && !depthSent.has(p)) { depthSent.add(p); window.fbq("trackCustom", "PageScroll", { percent: p }); }
+    });
+  }
+  const passCard = $("#ticket");
+  if (passCard) {
+    const vio = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { passSeen = true; vio.disconnect(); flushTracking(); }
+    }, { threshold: 0.5 });
+    vio.observe(passCard);
+  }
+  let depthTick = false;
+  const readDepth = () => {
+    depthTick = false;
+    const doc = document.documentElement;
+    const scrollable = doc.scrollHeight - innerHeight;
+    const pct = scrollable > 0 ? Math.round((scrollY / scrollable) * 100) : 100;
+    if (pct > maxDepth) { maxDepth = pct; flushTracking(); }
+  };
+  addEventListener("scroll", () => { if (!depthTick) { depthTick = true; requestAnimationFrame(readDepth); } }, { passive: true });
   if (banner) {
     const choice = store("itl-consent");
     if (choice === "granted") loadPixel();
