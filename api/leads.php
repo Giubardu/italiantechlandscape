@@ -141,6 +141,8 @@ $rows = $report
   ? [['Nome', $who], ['Email', $email], ['Telefono', $lead['phone']], ['Azienda', $lead['company']], ['Job title', $lead['role']], ['Categoria di interesse', $lead['interest'] . ($lead['interestOther'] !== '' ? ' — ' . $lead['interestOther'] : '')], ['Come ci ha conosciuto', $lead['source'] . ($lead['sourceOther'] !== '' ? ' — ' . $lead['sourceOther'] : '')], ['Consensi', 'Privacy (art. 13 GDPR) e termini e condizioni / iscrizione alla community: accettati']]
   : [['Nome', $who], ['Email', $email], ['Telefono', $lead['phone']], ['Azienda', $lead['company']], ['Partnership', $lead['tier']], ['Messaggio', $lead['message'] ?: '—']];
 $rows[] = ['Lingua del sito', $lead['lang']];
+// Which landing sent it (/, /it/ or the /ita/ test page)
+$rows[] = ['Pagina', clean($body['page'] ?? '', 120) ?: '—'];
 $rows[] = ['Inviato il', $lead['submittedAt']];
 
 $subject = oneline($report ? "Download report ITL 2026: $who, {$lead['company']}" : "Richiesta partnership ITL 27: $who, {$lead['company']}");

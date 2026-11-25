@@ -476,6 +476,13 @@
     });
     return ok;
   }
+  // /ita/ only: a visitor arriving from a Meta ad (fbclid, or utm_source facebook/instagram/meta/fb/ig)
+  // finds "Come hai conosciuto lo studio?" already set to Social media. / and /it/ are unchanged.
+  if (document.documentElement.dataset.variant === "ita") {
+    const q = new URLSearchParams(location.search);
+    const sourceField = $("#r-source");
+    if (sourceField && (q.has("fbclid") || /^(facebook|instagram|meta|fb|ig)$/i.test(q.get("utm_source") || ""))) sourceField.value = "Social media";
+  }
   function serialise(form) {
     const data = Object.fromEntries(new FormData(form).entries());
     $$('input[type="checkbox"]', form).forEach((c) => (data[c.name] = c.checked));
