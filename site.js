@@ -353,7 +353,7 @@
   /* ================= Report gate ================= */
   const gate = $("#gate");
   const store = (k, v) => { try { v === undefined ? (v = localStorage.getItem(k)) : localStorage.setItem(k, v); } catch (e) { /* ignore */ } return v; };
-  $$("[data-open-gate]").forEach((b) => b.addEventListener("click", () => { gate.showModal(); $("#r-first").focus(); }));
+  if (gate) $$("[data-open-gate]").forEach((b) => b.addEventListener("click", () => { gate.showModal(); $("#r-first").focus(); }));
 
   /* ================= Ticket invite: after 30 s on the page (tab visible), once per session =================
      Skipped if the visitor already went to the checkout, or is busy in a dialog or a form field. */
@@ -392,7 +392,20 @@
     target.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" });
     history.replaceState(null, "", "#" + id);
   }));
-  gate.addEventListener("click", (e) => { if (e.target === gate) gate.close(); });
+  if (gate) gate.addEventListener("click", (e) => { if (e.target === gate) gate.close(); });
+
+  /* /ita/: the report form is a section of the page (#scarica), not a popup. Report buttons scroll to it;
+     on desktop the first field takes focus once there (not on phones, where it would pop the keyboard). */
+  $$("a[data-to-form]").forEach((a) => a.addEventListener("click", (e) => {
+    const target = $("#scarica");
+    if (!target) return;
+    e.preventDefault();
+    a.closest("dialog[open]")?.close();
+    target.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" });
+    history.replaceState(null, "", "#scarica");
+    const first = $("#r-first"), form = $("#report-form");
+    if (first && form && !form.hidden && matchMedia("(hover: hover) and (pointer: fine)").matches) setTimeout(() => first.focus({ preventScroll: true }), reduced.matches ? 0 : 700);
+  }));
 
   /* ================= Cookie consent + Meta pixel =================
      Nothing from Meta loads until the visitor presses Accept. The choice is kept in localStorage;

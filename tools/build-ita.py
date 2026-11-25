@@ -53,29 +53,53 @@ once(r'<div class="mbar" id="mbar">.*?</div>',
      '</div>',
      "mobile bar")
 
-# ---- 3. Button at the end of "Un report basato sui dati" ----
-once(r'(<section class="section deep" id="findings".*?</ul>)',
-     r'\1' + '\n'
-     '    <div class="findings-cta rv">\n'
-     '      <button type="button" class="btn btn-accent" data-open-gate><span>Scarica il report completo</span> <span class="arrow" aria-hidden="true">→</span></button>\n'
-     '      <p class="cta-micro">Gratis · 669 aziende, 1.652 soluzioni, 389 città</p>\n'
-     '    </div>',
-     "findings button")
+# ---- 3–5. The report form is a section on the page, right under "Un report basato sui dati",
+#      instead of a popup. The thank-you (with the pass box) replaces the form in place. ----
+m = re.search(r'<!-- Report gate -->\s*<dialog class="gate" id="gate".*?</dialog>\n', s, flags=re.S)
+if not m:
+    raise SystemExit("build-ita: 'report popup' not found. Check index-v4.html.")
+gate = m.group(0)
+s = s[:m.start()] + s[m.end():]
+done = re.search(r'<div class="gate-done" id="report-done".*?</div>(?=\s*<form)', gate, flags=re.S)
+form = re.search(r'<form class="form" id="report-form".*?</form>', gate, flags=re.S)
+if not (done and form):
+    raise SystemExit("build-ita: thank-you panel or report form not found in the popup.")
+done = done.group(0)
+# no "Torna alla pagina": there is no popup to close; the pass box goes where it was
+done, n = re.subn(r'<button type="button" class="btn btn-ghost" data-close>.*?</button>',
+                  '<div class="done-pass">\n'
+                  '        <p class="done-pass-title">Vuoi vedere la 4ª edizione prima di tutti?</p>\n'
+                  '        <p>La presentiamo il 24 febbraio 2027 al Monterosa 91 di Milano. Il pass da 99 € include le sessioni, il pranzo executive e il networking serale.</p>\n'
+                  '        <a class="btn btn-accent" href="#event" data-to-ticket><span>Acquista il tuo Pass</span> <span class="arrow" aria-hidden="true">→</span></a>\n'
+                  '      </div>', done, flags=re.S)
+if n != 1:
+    raise SystemExit("build-ita: 'Torna alla pagina' button not found in the thank-you panel.")
 
-# ---- 4. Report form: new intro (fields unchanged) ----
-once(r'<p class="gate-note">.*?</p>',
-     '<p class="gate-note">Ricevi il report completo via email, gratis. <strong>Usa la tua email aziendale</strong> (no Gmail, Yahoo, Outlook o info@): il nostro team verifica ogni richiesta prima dell’invio.</p>',
-     "form intro")
+SECTION = f'''<!-- ============ REPORT FORM (/ita/ only, built by tools/build-ita.py) ============ -->
+<section class="section scarica" id="scarica" aria-labelledby="scarica-title">
+  <div class="wrap scarica-grid">
+    <div class="scarica-head">
+      <p class="eyebrow">Gratis · edizione 2026</p>
+      <h2 class="h2" id="scarica-title">Scarica il report completo</h2>
+      <p class="gate-note">Ricevi il report completo via email, gratis. <strong>Usa la tua email aziendale</strong> (no Gmail, Yahoo, Outlook o info@): il nostro team verifica ogni richiesta prima dell’invio.</p>
+      <p class="cta-micro">669 aziende, 1.652 soluzioni, 389 città</p>
+      <figure class="scarica-cover"><img src="/assets/img/copertina.webp" alt="Copertina del report Italian Tech Landscape 2026" width="1200" height="668" loading="lazy"></figure>
+    </div>
+    <div class="scarica-card">
+      {done}
+      {form.group(0)}
+    </div>
+  </div>
+</section>
 
-# ---- 5. After sending: pass box under the thank-you ----
-once(r'(<div class="gate-done" id="report-done".*?)(<button type="button" class="btn btn-ghost" data-close>)',
-     r'\1' + '<div class="done-pass">\n'
-     '        <p class="done-pass-title">Vuoi vedere la 4ª edizione prima di tutti?</p>\n'
-     '        <p>La presentiamo il 24 febbraio 2027 al Monterosa 91 di Milano. Il pass da 99 € include le sessioni, il pranzo executive e il networking serale.</p>\n'
-     '        <a class="btn btn-accent" href="#event" data-to-ticket><span>Acquista il tuo Pass</span> <span class="arrow" aria-hidden="true">→</span></a>\n'
-     '      </div>\n'
-     '      ' + r'\2',
-     "pass box")
+'''
+once(r'(?=<!-- =+ PHOTO BAND =+ -->)', SECTION.replace("\\", "\\\\"), "form section")
+
+# Every report button scrolls to the form (a real link, so it also works without JavaScript)
+s, n = re.subn(r'<button type="button" class="([^"]*)" data-open-gate>(.*?)</button>',
+               r'<a class="\1" href="#scarica" data-to-form>\2</a>', s, flags=re.S)
+if n < 1:
+    raise SystemExit("build-ita: no report buttons found.")
 
 # ---- 8. No partner section, no Partner links (the partner kit PDF stays on the server) ----
 once(r'<!-- =+ PARTNERS =+ -->.*?(?=<!-- =+ REGISTER)', "", "partners section")
@@ -86,7 +110,13 @@ CSS = """
     /* /ita/ test landing (tools/build-ita.py) */
     [data-variant="ita"] .hero-actions { flex-direction: row; flex-wrap: wrap; align-items: center; }
     [data-variant="ita"] .hero-micro { margin-top: -14px; }
-    .findings-cta { display: grid; justify-items: center; gap: 14px; margin-top: clamp(40px, 6vw, 72px); text-align: center; }
+    .scarica { padding-top: clamp(64px, 8vw, 112px); }
+    .scarica-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(36px, 6vw, 88px); align-items: start; }
+    .scarica-head { display: grid; gap: 20px; position: sticky; top: 110px; }
+    .scarica-head .gate-note { font-size: 1rem; }
+    .scarica-cover { margin: 12px 0 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6); }
+    .scarica-cover img { display: block; width: 100%; height: auto; }
+    .scarica-card { display: grid; gap: 24px; padding: clamp(22px, 4vw, 40px); border: 1px solid rgba(199, 207, 220, .3); border-radius: 22px; background: var(--ink-2); }
     .done-pass { display: grid; gap: 12px; justify-items: start; width: 100%; padding: 22px; border: 1px solid var(--accent); border-radius: 16px; background: rgba(62, 209, 209, .06); }
     .done-pass p { margin: 0; font-size: .92rem; line-height: 1.6; color: var(--on-ink-muted); }
     .done-pass .done-pass-title { font: 700 1.05rem/1.35 var(--font); color: var(--white); }
@@ -95,12 +125,15 @@ CSS = """
       [data-variant="ita"] .hero-actions { flex-direction: column; align-items: stretch; }
     }
     @media (max-width: 960px) {
+      .scarica-grid { grid-template-columns: minmax(0, 1fr); }
+      .scarica-head { position: static; }
+      .scarica-cover { display: none; }
       [data-variant="ita"] .mbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
   </style>"""
 once(r'\n  </style>', CSS, "style block")
 
-for left in ("#partners", 'id="partner-form"', "data-set-lang"):
+for left in ("#partners", 'id="partner-form"', "data-set-lang", 'id="gate"', "data-open-gate", "data-close>"):
     if left in s:
         raise SystemExit(f"build-ita: '{left}' is still in the page.")
 

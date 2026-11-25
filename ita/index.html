@@ -636,7 +636,13 @@
     /* /ita/ test landing (tools/build-ita.py) */
     [data-variant="ita"] .hero-actions { flex-direction: row; flex-wrap: wrap; align-items: center; }
     [data-variant="ita"] .hero-micro { margin-top: -14px; }
-    .findings-cta { display: grid; justify-items: center; gap: 14px; margin-top: clamp(40px, 6vw, 72px); text-align: center; }
+    .scarica { padding-top: clamp(64px, 8vw, 112px); }
+    .scarica-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(36px, 6vw, 88px); align-items: start; }
+    .scarica-head { display: grid; gap: 20px; position: sticky; top: 110px; }
+    .scarica-head .gate-note { font-size: 1rem; }
+    .scarica-cover { margin: 12px 0 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6); }
+    .scarica-cover img { display: block; width: 100%; height: auto; }
+    .scarica-card { display: grid; gap: 24px; padding: clamp(22px, 4vw, 40px); border: 1px solid rgba(199, 207, 220, .3); border-radius: 22px; background: var(--ink-2); }
     .done-pass { display: grid; gap: 12px; justify-items: start; width: 100%; padding: 22px; border: 1px solid var(--accent); border-radius: 16px; background: rgba(62, 209, 209, .06); }
     .done-pass p { margin: 0; font-size: .92rem; line-height: 1.6; color: var(--on-ink-muted); }
     .done-pass .done-pass-title { font: 700 1.05rem/1.35 var(--font); color: var(--white); }
@@ -645,6 +651,9 @@
       [data-variant="ita"] .hero-actions { flex-direction: column; align-items: stretch; }
     }
     @media (max-width: 960px) {
+      .scarica-grid { grid-template-columns: minmax(0, 1fr); }
+      .scarica-head { position: static; }
+      .scarica-cover { display: none; }
       [data-variant="ita"] .mbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
   </style>
@@ -667,7 +676,7 @@
       <a href="#speakers" data-en="Speakers" data-it="Relatori">Relatori</a>
       <a href="#press" data-en="Press" data-it="Stampa">Stampa</a>
     </nav>
-    <button type="button" class="btn btn-primary header-cta" data-open-gate><span data-en="Download report" data-it="Scarica il report">Scarica il report</span></button>
+    <a class="btn btn-primary header-cta" href="#scarica" data-to-form><span data-en="Download report" data-it="Scarica il report">Scarica il report</span></a>
   </div>
 </header>
 
@@ -685,7 +694,7 @@
       </h1>
       <p class="lede after after-1">669 aziende e 1.652 soluzioni tecnologiche sviluppate in Italia, verificate sui registri ufficiali e validate con le aziende stesse. Scarica gratis l’edizione 2026.</p>
       <div class="hero-actions after after-2">
-        <button type="button" class="btn btn-accent" data-open-gate><span>Scarica gratis il report</span> <span class="arrow" aria-hidden="true">→</span></button>
+        <a class="btn btn-accent" href="#scarica" data-to-form><span>Scarica gratis il report</span> <span class="arrow" aria-hidden="true">→</span></a>
         <a class="btn btn-ghost" href="#event" data-to-ticket><span>Pass per il 24 febbraio · 99 €</span></a>
       </div>
       <p class="cta-micro hero-micro after after-2">Milano, Monterosa 91 · 24 febbraio 2027 · la 4ª edizione presentata in anteprima</p>
@@ -749,7 +758,7 @@
 
     <div class="audience-head">
       <h3 class="h2 tr" id="audience-for"><span data-en="Written for the people who build, buy and back Italian tech." data-it="Pensato per chi crea, sceglie e finanzia il tech italiano.">Pensato per chi crea, sceglie e finanzia il tech italiano.</span></h3>
-      <div class="rv" style="--d:.15"><button type="button" class="btn btn-primary" data-open-gate><span data-en="Get your copy" data-it="Scarica il report">Scarica il report</span> <span class="arrow" aria-hidden="true">→</span></button></div>
+      <div class="rv" style="--d:.15"><a class="btn btn-primary" href="#scarica" data-to-form><span data-en="Get your copy" data-it="Scarica il report">Scarica il report</span> <span class="arrow" aria-hidden="true">→</span></a></div>
     </div>
     <dl class="audience" aria-labelledby="audience-for">
       <div class="rv">
@@ -817,9 +826,197 @@
         </div>
       </li>
     </ul>
-    <div class="findings-cta rv">
-      <button type="button" class="btn btn-accent" data-open-gate><span>Scarica il report completo</span> <span class="arrow" aria-hidden="true">→</span></button>
-      <p class="cta-micro">Gratis · 669 aziende, 1.652 soluzioni, 389 città</p>
+  </div>
+</section>
+
+<!-- ============ REPORT FORM (/ita/ only, built by tools/build-ita.py) ============ -->
+<section class="section scarica" id="scarica" aria-labelledby="scarica-title">
+  <div class="wrap scarica-grid">
+    <div class="scarica-head">
+      <p class="eyebrow">Gratis · edizione 2026</p>
+      <h2 class="h2" id="scarica-title">Scarica il report completo</h2>
+      <p class="gate-note">Ricevi il report completo via email, gratis. <strong>Usa la tua email aziendale</strong> (no Gmail, Yahoo, Outlook o info@): il nostro team verifica ogni richiesta prima dell’invio.</p>
+      <p class="cta-micro">669 aziende, 1.652 soluzioni, 389 città</p>
+      <figure class="scarica-cover"><img src="/assets/img/copertina.webp" alt="Copertina del report Italian Tech Landscape 2026" width="1200" height="668" loading="lazy"></figure>
+    </div>
+    <div class="scarica-card">
+      <div class="gate-done" id="report-done" role="status" tabindex="-1" hidden>
+      <span class="gate-done-mark" aria-hidden="true"></span>
+      <h3 class="h3" data-en="Thank you for your interest in the report." data-it="Grazie per l'interesse verso il report.">Grazie per l'interesse verso il report.</h3>
+      <p class="prose" data-en="We have received your details. Our team will contact you by email soon." data-it="Abbiamo ricevuto i tuoi dati. Il nostro team ti contatterà presto via email.">Abbiamo ricevuto i tuoi dati. Il nostro team ti contatterà presto via email.</p>
+      <div class="done-pass">
+        <p class="done-pass-title">Vuoi vedere la 4ª edizione prima di tutti?</p>
+        <p>La presentiamo il 24 febbraio 2027 al Monterosa 91 di Milano. Il pass da 99 € include le sessioni, il pranzo executive e il networking serale.</p>
+        <a class="btn btn-accent" href="#event" data-to-ticket><span>Acquista il tuo Pass</span> <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+      <form class="form" id="report-form" novalidate>
+      <input type="hidden" name="type" value="report">
+      <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <div class="field-row">
+        <div class="field">
+          <label for="r-first" data-en="First name" data-it="Nome">Nome</label>
+          <input id="r-first" name="firstName" autocomplete="given-name" required>
+        </div>
+        <div class="field">
+          <label for="r-last" data-en="Last name" data-it="Cognome">Cognome</label>
+          <input id="r-last" name="lastName" autocomplete="family-name" required>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="r-phone" data-en="Phone" data-it="Telefono">Telefono</label>
+          <input id="r-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9 +().\-]{6,24}" required>
+        </div>
+        <div class="field">
+          <label for="r-email" data-en="Business email" data-it="Email aziendale">Email aziendale</label>
+          <input id="r-email" name="email" type="email" autocomplete="email" data-business-email required>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="r-company" data-en="Company" data-it="Azienda">Azienda</label>
+          <input id="r-company" name="company" autocomplete="organization" required>
+        </div>
+        <div class="field">
+          <label for="r-role" data-en="Job title" data-it="Job title">Job title</label>
+          <input id="r-role" name="role" autocomplete="organization-title" required>
+        </div>
+      </div>
+      <div class="field-row">
+      <div class="field">
+        <label for="r-interest" data-en="Category of interest" data-it="Categoria di interesse">Categoria di interesse</label>
+        <select id="r-interest" name="interest" required>
+          <option value="" data-en="Select a category" data-it="Seleziona una categoria">Seleziona una categoria</option>
+          <option value="Aerospace">Aerospace</option>
+          <option value="AgriTech">AgriTech</option>
+          <optgroup label="AI">
+            <option value="AI" data-en="AI (general)" data-it="AI (generale)">AI (generale)</option>
+            <option value="AI Generativa" data-en="Generative AI" data-it="AI generativa">AI generativa</option>
+            <option value="AI Chatbot">Chatbot</option>
+            <option value="AI Assistenti Virtuali" data-en="Virtual assistants" data-it="Assistenti virtuali">Assistenti virtuali</option>
+            <option value="AI Semantica" data-en="Semantic AI" data-it="AI semantica">AI semantica</option>
+          </optgroup>
+          <option value="All-in-one Platform">All-in-one Platform</option>
+          <option value="APP" data-en="Apps" data-it="App">App</option>
+          <option value="Automotive">Automotive</option>
+          <option value="Blockchain">Blockchain</option>
+          <option value="Business Intelligence">Business Intelligence</option>
+          <option value="CleanTech">CleanTech</option>
+          <option value="CRM - CDP">CRM / CDP</option>
+          <option value="Cybersecurity">Cybersecurity</option>
+          <option value="DeepTech">DeepTech</option>
+          <optgroup label="E-Commerce">
+            <option value="E-Commerce" data-en="E-Commerce (general)" data-it="E-Commerce (generale)">E-Commerce (generale)</option>
+            <option value="E-Commerce 3D e 4D" data-en="3D and 4D" data-it="3D e 4D">3D e 4D</option>
+            <option value="E-Commerce Tracking">Tracking</option>
+            <option value="E-Commerce Shipping" data-en="Shipping" data-it="Spedizioni">Spedizioni</option>
+            <option value="E-Commerce Delivery" data-en="Delivery" data-it="Consegne">Consegne</option>
+            <option value="E-Commerce AR / VR">AR / VR</option>
+          </optgroup>
+          <option value="EdTech">EdTech</option>
+          <option value="eMobility">eMobility</option>
+          <option value="ERP">ERP</option>
+          <option value="FashionTech">FashionTech</option>
+          <optgroup label="Fatturazione" data-en-label="Invoicing" data-it-label="Fatturazione">
+            <option value="Fatturazione" data-en="Invoicing (general)" data-it="Fatturazione (generale)">Fatturazione (generale)</option>
+            <option value="Fatturazione Elettronica" data-en="E-invoicing" data-it="Fatturazione elettronica">Fatturazione elettronica</option>
+            <option value="Fatturazione Flussi di cassa" data-en="Cash flow" data-it="Flussi di cassa">Flussi di cassa</option>
+            <option value="Fatturazione Tesoreria" data-en="Treasury" data-it="Tesoreria">Tesoreria</option>
+          </optgroup>
+          <optgroup label="Fintech">
+            <option value="Fintech" data-en="Fintech (general)" data-it="Fintech (generale)">Fintech (generale)</option>
+            <option value="Fintech Banking">Banking</option>
+            <option value="Fintech Insurance" data-en="Insurance" data-it="Assicurazioni">Assicurazioni</option>
+            <option value="Fintech Pagamenti" data-en="Payments" data-it="Pagamenti">Pagamenti</option>
+          </optgroup>
+          <optgroup label="FoodTech">
+            <option value="FoodTech" data-en="FoodTech (general)" data-it="FoodTech (generale)">FoodTech (generale)</option>
+            <option value="FoodTech Etichettatura" data-en="Labelling" data-it="Etichettatura">Etichettatura</option>
+            <option value="FoodTech Stocking" data-en="Stock management" data-it="Gestione scorte">Gestione scorte</option>
+            <option value="FoodTech Gestionali" data-en="Management software" data-it="Gestionali">Gestionali</option>
+          </optgroup>
+          <option value="Gaming">Gaming</option>
+          <optgroup label="Gestionale" data-en-label="Management software" data-it-label="Gestionale">
+            <option value="Gestionale" data-en="Management software (general)" data-it="Gestionale (generale)">Gestionale (generale)</option>
+            <option value="Gestionale Documentazione" data-en="Documents" data-it="Documentazione">Documentazione</option>
+            <option value="Gestionale Firme contratti" data-en="Contract signing" data-it="Firma contratti">Firma contratti</option>
+            <option value="Gestionale Forniture" data-en="Supplies" data-it="Forniture">Forniture</option>
+            <option value="Gestionale Logistica" data-en="Logistics" data-it="Logistica">Logistica</option>
+            <option value="Gestionale Bellezza" data-en="Beauty" data-it="Bellezza">Bellezza</option>
+            <option value="Gestionale vari" data-en="Other" data-it="Altri">Altri</option>
+          </optgroup>
+          <option value="GreenTech">GreenTech</option>
+          <option value="HealthTech">HealthTech</option>
+          <option value="HR">HR</option>
+          <option value="LegalTech">LegalTech</option>
+          <optgroup label="Martech">
+            <option value="Martech" data-en="Martech (general)" data-it="Martech (generale)">Martech (generale)</option>
+            <option value="Martech Email">Email</option>
+            <option value="Martech WhatsApp">WhatsApp</option>
+            <option value="Martech Automation">Automation</option>
+            <option value="Martech Social Media">Social media</option>
+            <option value="Martech Adtech">Adtech</option>
+            <option value="Martech Landing" data-en="Landing pages" data-it="Landing page">Landing page</option>
+          </optgroup>
+          <option value="MedTech">MedTech</option>
+          <option value="Nanotech">Nanotech</option>
+          <optgroup label="Sales">
+            <option value="Sales" data-en="Sales (general)" data-it="Sales (generale)">Sales (generale)</option>
+            <option value="Sales B2B">B2B</option>
+            <option value="Sales B2C">B2C</option>
+          </optgroup>
+          <option value="Sostenibilità" data-en="Sustainability" data-it="Sostenibilità">Sostenibilità</option>
+          <option value="Sport &amp; Fitness">Sport &amp; Fitness</option>
+          <optgroup label="TurismTech">
+            <option value="TurismTech" data-en="TurismTech (general)" data-it="TurismTech (generale)">TurismTech (generale)</option>
+            <option value="TurismTech Hotel" data-en="Hotels" data-it="Hotel">Hotel</option>
+            <option value="TurismTech Hospitality">Hospitality</option>
+            <option value="TurismTech Ristoranti" data-en="Restaurants" data-it="Ristoranti">Ristoranti</option>
+            <option value="TurismTech Booking" data-en="Booking" data-it="Prenotazioni">Prenotazioni</option>
+            <option value="TurismTech Concierge">Concierge</option>
+          </optgroup>
+          <option value="UrbanTech &amp; Smart City">UrbanTech &amp; Smart City</option>
+          <option value="Wearable Tech">Wearable Tech</option>
+          <option value="Software House">Software House</option>
+          <option value="Tutte" data-en="All categories" data-it="Tutte le categorie">Tutte le categorie</option>
+          <option value="Altro" data-en="Other" data-it="Altro">Altro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="r-interest-other" data-en="Not listed? Tell us here" data-it="Se non compare, indica qui">Se non compare, indica qui</label>
+        <input id="r-interest-other" name="interestOther" maxlength="80">
+      </div>
+      </div>
+      <div class="field-row">
+      <div class="field">
+        <label for="r-source" data-en="How did you hear about us?" data-it="Come hai conosciuto lo studio?">Come hai conosciuto lo studio?</label>
+        <select id="r-source" name="source" required>
+          <option value="" data-en="Select" data-it="Seleziona">Seleziona</option>
+          <option value="Social media">Social media</option>
+          <option value="Internet" data-en="Web search" data-it="Ricerca sul web">Ricerca sul web</option>
+          <option value="Newsletter">Newsletter</option>
+          <option value="Referenze" data-en="Recommendation" data-it="Passaparola o referenze">Passaparola o referenze</option>
+          <option value="Evento" data-en="Event" data-it="Evento">Evento</option>
+          <option value="Altro" data-en="Other" data-it="Altro">Altro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="r-source-other" data-en="Not listed? Tell us here" data-it="Se non compare, indica qui">Se non compare, indica qui</label>
+        <input id="r-source-other" name="sourceOther" maxlength="80">
+      </div>
+      </div>
+      <label class="check">
+        <input type="checkbox" name="consent" required>
+        <span><span data-en="By filling in the form and clicking the button below, I authorise the processing of my personal data under art. 13 of the GDPR, as set out in the " data-it="Compilando il form e facendo click sul pulsante sotto autorizzo il trattamento dei miei dati personali ai sensi dell'art. 13 del GDPR come da ">Compilando il form e facendo click sul pulsante sotto autorizzo il trattamento dei miei dati personali ai sensi dell'art. 13 del GDPR come da </span><a href="https://www.latechmadeinitaly.com/privacy" target="_blank" rel="noopener" data-en="privacy notice" data-it="informativa privacy">informativa privacy</a>.</span>
+      </label>
+      <label class="check">
+        <input type="checkbox" name="terms" required>
+        <span><span data-en="Taking part includes joining the community, as provided in the " data-it="La partecipazione prevede l'iscrizione alla community così come previsto da ">La partecipazione prevede l'iscrizione alla community così come previsto da </span><a href="https://www.latechmadeinitaly.com/termini-condizioni/" target="_blank" rel="noopener" data-en="terms and conditions" data-it="termini e condizioni">termini e condizioni</a><span data-en=", which I declare I accept." data-it=" che dichiaro di accettare."> che dichiaro di accettare.</span></span>
+      </label>
+      <button class="btn btn-accent btn-block" type="submit"><span data-en="Download the 2026 report" data-it="Scarica report 2026">Scarica report 2026</span> <span class="arrow" aria-hidden="true">→</span></button>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
     </div>
   </div>
 </section>
@@ -1213,7 +1410,7 @@
 
 <!-- Mobile CTA bar -->
 <div class="mbar" id="mbar">
-  <button type="button" class="btn btn-primary" data-open-gate><span>Report gratis</span></button>
+  <a class="btn btn-primary" href="#scarica" data-to-form><span>Report gratis</span></a>
   <a class="btn btn-accent" href="#ticket" data-to-ticket><span>Pass · 99 €</span></a>
 </div>
 
@@ -1247,196 +1444,6 @@
   </div>
 </section>
 
-<!-- Report gate -->
-<dialog class="gate" id="gate" aria-labelledby="gate-title">
-  <div class="gate-inner">
-    <div class="gate-head">
-      <div style="display:grid;gap:10px">
-        <h2 class="h3" id="gate-title" data-en="Download the 2026 report" data-it="Scarica il report 2026">Scarica il report 2026</h2>
-        <p class="gate-note">Ricevi il report completo via email, gratis. <strong>Usa la tua email aziendale</strong> (no Gmail, Yahoo, Outlook o info@): il nostro team verifica ogni richiesta prima dell’invio.</p>
-      </div>
-      <button type="button" class="x" data-close aria-label="Chiudi" data-en-aria="Close" data-it-aria="Chiudi">×</button>
-    </div>
-    <div class="gate-done" id="report-done" role="status" tabindex="-1" hidden>
-      <span class="gate-done-mark" aria-hidden="true"></span>
-      <h3 class="h3" data-en="Thank you for your interest in the report." data-it="Grazie per l'interesse verso il report.">Grazie per l'interesse verso il report.</h3>
-      <p class="prose" data-en="We have received your details. Our team will contact you by email soon." data-it="Abbiamo ricevuto i tuoi dati. Il nostro team ti contatterà presto via email.">Abbiamo ricevuto i tuoi dati. Il nostro team ti contatterà presto via email.</p>
-      <div class="done-pass">
-        <p class="done-pass-title">Vuoi vedere la 4ª edizione prima di tutti?</p>
-        <p>La presentiamo il 24 febbraio 2027 al Monterosa 91 di Milano. Il pass da 99 € include le sessioni, il pranzo executive e il networking serale.</p>
-        <a class="btn btn-accent" href="#event" data-to-ticket><span>Acquista il tuo Pass</span> <span class="arrow" aria-hidden="true">→</span></a>
-      </div>
-      <button type="button" class="btn btn-ghost" data-close><span data-en="Back to the page" data-it="Torna alla pagina">Torna alla pagina</span></button>
-    </div>
-    <form class="form" id="report-form" novalidate>
-      <input type="hidden" name="type" value="report">
-      <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
-      <div class="field-row">
-        <div class="field">
-          <label for="r-first" data-en="First name" data-it="Nome">Nome</label>
-          <input id="r-first" name="firstName" autocomplete="given-name" required>
-        </div>
-        <div class="field">
-          <label for="r-last" data-en="Last name" data-it="Cognome">Cognome</label>
-          <input id="r-last" name="lastName" autocomplete="family-name" required>
-        </div>
-      </div>
-      <div class="field-row">
-        <div class="field">
-          <label for="r-phone" data-en="Phone" data-it="Telefono">Telefono</label>
-          <input id="r-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9 +().\-]{6,24}" required>
-        </div>
-        <div class="field">
-          <label for="r-email" data-en="Business email" data-it="Email aziendale">Email aziendale</label>
-          <input id="r-email" name="email" type="email" autocomplete="email" data-business-email required>
-        </div>
-      </div>
-      <div class="field-row">
-        <div class="field">
-          <label for="r-company" data-en="Company" data-it="Azienda">Azienda</label>
-          <input id="r-company" name="company" autocomplete="organization" required>
-        </div>
-        <div class="field">
-          <label for="r-role" data-en="Job title" data-it="Job title">Job title</label>
-          <input id="r-role" name="role" autocomplete="organization-title" required>
-        </div>
-      </div>
-      <div class="field-row">
-      <div class="field">
-        <label for="r-interest" data-en="Category of interest" data-it="Categoria di interesse">Categoria di interesse</label>
-        <select id="r-interest" name="interest" required>
-          <option value="" data-en="Select a category" data-it="Seleziona una categoria">Seleziona una categoria</option>
-          <option value="Aerospace">Aerospace</option>
-          <option value="AgriTech">AgriTech</option>
-          <optgroup label="AI">
-            <option value="AI" data-en="AI (general)" data-it="AI (generale)">AI (generale)</option>
-            <option value="AI Generativa" data-en="Generative AI" data-it="AI generativa">AI generativa</option>
-            <option value="AI Chatbot">Chatbot</option>
-            <option value="AI Assistenti Virtuali" data-en="Virtual assistants" data-it="Assistenti virtuali">Assistenti virtuali</option>
-            <option value="AI Semantica" data-en="Semantic AI" data-it="AI semantica">AI semantica</option>
-          </optgroup>
-          <option value="All-in-one Platform">All-in-one Platform</option>
-          <option value="APP" data-en="Apps" data-it="App">App</option>
-          <option value="Automotive">Automotive</option>
-          <option value="Blockchain">Blockchain</option>
-          <option value="Business Intelligence">Business Intelligence</option>
-          <option value="CleanTech">CleanTech</option>
-          <option value="CRM - CDP">CRM / CDP</option>
-          <option value="Cybersecurity">Cybersecurity</option>
-          <option value="DeepTech">DeepTech</option>
-          <optgroup label="E-Commerce">
-            <option value="E-Commerce" data-en="E-Commerce (general)" data-it="E-Commerce (generale)">E-Commerce (generale)</option>
-            <option value="E-Commerce 3D e 4D" data-en="3D and 4D" data-it="3D e 4D">3D e 4D</option>
-            <option value="E-Commerce Tracking">Tracking</option>
-            <option value="E-Commerce Shipping" data-en="Shipping" data-it="Spedizioni">Spedizioni</option>
-            <option value="E-Commerce Delivery" data-en="Delivery" data-it="Consegne">Consegne</option>
-            <option value="E-Commerce AR / VR">AR / VR</option>
-          </optgroup>
-          <option value="EdTech">EdTech</option>
-          <option value="eMobility">eMobility</option>
-          <option value="ERP">ERP</option>
-          <option value="FashionTech">FashionTech</option>
-          <optgroup label="Fatturazione" data-en-label="Invoicing" data-it-label="Fatturazione">
-            <option value="Fatturazione" data-en="Invoicing (general)" data-it="Fatturazione (generale)">Fatturazione (generale)</option>
-            <option value="Fatturazione Elettronica" data-en="E-invoicing" data-it="Fatturazione elettronica">Fatturazione elettronica</option>
-            <option value="Fatturazione Flussi di cassa" data-en="Cash flow" data-it="Flussi di cassa">Flussi di cassa</option>
-            <option value="Fatturazione Tesoreria" data-en="Treasury" data-it="Tesoreria">Tesoreria</option>
-          </optgroup>
-          <optgroup label="Fintech">
-            <option value="Fintech" data-en="Fintech (general)" data-it="Fintech (generale)">Fintech (generale)</option>
-            <option value="Fintech Banking">Banking</option>
-            <option value="Fintech Insurance" data-en="Insurance" data-it="Assicurazioni">Assicurazioni</option>
-            <option value="Fintech Pagamenti" data-en="Payments" data-it="Pagamenti">Pagamenti</option>
-          </optgroup>
-          <optgroup label="FoodTech">
-            <option value="FoodTech" data-en="FoodTech (general)" data-it="FoodTech (generale)">FoodTech (generale)</option>
-            <option value="FoodTech Etichettatura" data-en="Labelling" data-it="Etichettatura">Etichettatura</option>
-            <option value="FoodTech Stocking" data-en="Stock management" data-it="Gestione scorte">Gestione scorte</option>
-            <option value="FoodTech Gestionali" data-en="Management software" data-it="Gestionali">Gestionali</option>
-          </optgroup>
-          <option value="Gaming">Gaming</option>
-          <optgroup label="Gestionale" data-en-label="Management software" data-it-label="Gestionale">
-            <option value="Gestionale" data-en="Management software (general)" data-it="Gestionale (generale)">Gestionale (generale)</option>
-            <option value="Gestionale Documentazione" data-en="Documents" data-it="Documentazione">Documentazione</option>
-            <option value="Gestionale Firme contratti" data-en="Contract signing" data-it="Firma contratti">Firma contratti</option>
-            <option value="Gestionale Forniture" data-en="Supplies" data-it="Forniture">Forniture</option>
-            <option value="Gestionale Logistica" data-en="Logistics" data-it="Logistica">Logistica</option>
-            <option value="Gestionale Bellezza" data-en="Beauty" data-it="Bellezza">Bellezza</option>
-            <option value="Gestionale vari" data-en="Other" data-it="Altri">Altri</option>
-          </optgroup>
-          <option value="GreenTech">GreenTech</option>
-          <option value="HealthTech">HealthTech</option>
-          <option value="HR">HR</option>
-          <option value="LegalTech">LegalTech</option>
-          <optgroup label="Martech">
-            <option value="Martech" data-en="Martech (general)" data-it="Martech (generale)">Martech (generale)</option>
-            <option value="Martech Email">Email</option>
-            <option value="Martech WhatsApp">WhatsApp</option>
-            <option value="Martech Automation">Automation</option>
-            <option value="Martech Social Media">Social media</option>
-            <option value="Martech Adtech">Adtech</option>
-            <option value="Martech Landing" data-en="Landing pages" data-it="Landing page">Landing page</option>
-          </optgroup>
-          <option value="MedTech">MedTech</option>
-          <option value="Nanotech">Nanotech</option>
-          <optgroup label="Sales">
-            <option value="Sales" data-en="Sales (general)" data-it="Sales (generale)">Sales (generale)</option>
-            <option value="Sales B2B">B2B</option>
-            <option value="Sales B2C">B2C</option>
-          </optgroup>
-          <option value="Sostenibilità" data-en="Sustainability" data-it="Sostenibilità">Sostenibilità</option>
-          <option value="Sport &amp; Fitness">Sport &amp; Fitness</option>
-          <optgroup label="TurismTech">
-            <option value="TurismTech" data-en="TurismTech (general)" data-it="TurismTech (generale)">TurismTech (generale)</option>
-            <option value="TurismTech Hotel" data-en="Hotels" data-it="Hotel">Hotel</option>
-            <option value="TurismTech Hospitality">Hospitality</option>
-            <option value="TurismTech Ristoranti" data-en="Restaurants" data-it="Ristoranti">Ristoranti</option>
-            <option value="TurismTech Booking" data-en="Booking" data-it="Prenotazioni">Prenotazioni</option>
-            <option value="TurismTech Concierge">Concierge</option>
-          </optgroup>
-          <option value="UrbanTech &amp; Smart City">UrbanTech &amp; Smart City</option>
-          <option value="Wearable Tech">Wearable Tech</option>
-          <option value="Software House">Software House</option>
-          <option value="Tutte" data-en="All categories" data-it="Tutte le categorie">Tutte le categorie</option>
-          <option value="Altro" data-en="Other" data-it="Altro">Altro</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="r-interest-other" data-en="Not listed? Tell us here" data-it="Se non compare, indica qui">Se non compare, indica qui</label>
-        <input id="r-interest-other" name="interestOther" maxlength="80">
-      </div>
-      </div>
-      <div class="field-row">
-      <div class="field">
-        <label for="r-source" data-en="How did you hear about us?" data-it="Come hai conosciuto lo studio?">Come hai conosciuto lo studio?</label>
-        <select id="r-source" name="source" required>
-          <option value="" data-en="Select" data-it="Seleziona">Seleziona</option>
-          <option value="Social media">Social media</option>
-          <option value="Internet" data-en="Web search" data-it="Ricerca sul web">Ricerca sul web</option>
-          <option value="Newsletter">Newsletter</option>
-          <option value="Referenze" data-en="Recommendation" data-it="Passaparola o referenze">Passaparola o referenze</option>
-          <option value="Evento" data-en="Event" data-it="Evento">Evento</option>
-          <option value="Altro" data-en="Other" data-it="Altro">Altro</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="r-source-other" data-en="Not listed? Tell us here" data-it="Se non compare, indica qui">Se non compare, indica qui</label>
-        <input id="r-source-other" name="sourceOther" maxlength="80">
-      </div>
-      </div>
-      <label class="check">
-        <input type="checkbox" name="consent" required>
-        <span><span data-en="By filling in the form and clicking the button below, I authorise the processing of my personal data under art. 13 of the GDPR, as set out in the " data-it="Compilando il form e facendo click sul pulsante sotto autorizzo il trattamento dei miei dati personali ai sensi dell'art. 13 del GDPR come da ">Compilando il form e facendo click sul pulsante sotto autorizzo il trattamento dei miei dati personali ai sensi dell'art. 13 del GDPR come da </span><a href="https://www.latechmadeinitaly.com/privacy" target="_blank" rel="noopener" data-en="privacy notice" data-it="informativa privacy">informativa privacy</a>.</span>
-      </label>
-      <label class="check">
-        <input type="checkbox" name="terms" required>
-        <span><span data-en="Taking part includes joining the community, as provided in the " data-it="La partecipazione prevede l'iscrizione alla community così come previsto da ">La partecipazione prevede l'iscrizione alla community così come previsto da </span><a href="https://www.latechmadeinitaly.com/termini-condizioni/" target="_blank" rel="noopener" data-en="terms and conditions" data-it="termini e condizioni">termini e condizioni</a><span data-en=", which I declare I accept." data-it=" che dichiaro di accettare."> che dichiaro di accettare.</span></span>
-      </label>
-      <button class="btn btn-accent btn-block" type="submit"><span data-en="Download the 2026 report" data-it="Scarica report 2026">Scarica report 2026</span> <span class="arrow" aria-hidden="true">→</span></button>
-      <p class="form-status" role="status" aria-live="polite"></p>
-    </form>
-  </div>
-</dialog>
 
 <!-- Ticket invite (opens once, after 30 s on the page) -->
 <dialog class="gate invite" id="invite" aria-labelledby="invite-title">
