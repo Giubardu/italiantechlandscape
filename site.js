@@ -407,11 +407,25 @@
     if (first && form && !form.hidden && matchMedia("(hover: hover) and (pointer: fine)").matches) setTimeout(() => first.focus({ preventScroll: true }), reduced.matches ? 0 : 700);
   }));
 
-  /* ================= Cookie consent + Meta pixel =================
-     Nothing from Meta loads until the visitor presses Accept. The choice is kept in localStorage;
-     "Cookie settings" in the footer reopens the banner. Rejecting after accepting takes effect on the next page load. */
+  /* ================= Cookie consent + Meta pixel + Google Tag Manager (GA4) =================
+     Nothing from Meta or Google loads until the visitor presses Accept. The choice is kept in localStorage;
+     "Cookie settings" in the footer reopens the banner. Rejecting after accepting takes effect on the next page load.
+     GTM container GTM-T2FZ58KN (client's own GTM account) fires the GA4 tag G-PZ1FQVSL17. Consent Mode is set before
+     the container loads: analytics granted (the visitor accepted), all ad signals denied. */
   const PIXEL_ID = "1657438149087365";
+  const GTM_ID = "GTM-T2FZ58KN";
   const banner = $("#cookie");
+  function loadGTM() {
+    if (window.google_tag_manager || document.getElementById("gtm-js")) return;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    window.gtag("consent", "default", { analytics_storage: "granted", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
+    window.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
+    const s = document.createElement("script");
+    s.id = "gtm-js"; s.async = true; s.src = "https://www.googletagmanager.com/gtm.js?id=" + GTM_ID;
+    document.head.append(s);
+  }
+  function loadTracking() { loadPixel(); loadGTM(); }
   function loadPixel() {
     if (window.fbq) return;
     const n = window.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
@@ -459,12 +473,12 @@
   addEventListener("scroll", () => { if (!depthTick) { depthTick = true; requestAnimationFrame(readDepth); } }, { passive: true });
   if (banner) {
     const choice = store("itl-consent");
-    if (choice === "granted") loadPixel();
+    if (choice === "granted") loadTracking();
     else if (choice !== "denied") banner.hidden = false;
     $$("[data-consent]", banner).forEach((b) => b.addEventListener("click", () => {
       store("itl-consent", b.dataset.consent);
       banner.hidden = true;
-      if (b.dataset.consent === "granted") loadPixel();
+      if (b.dataset.consent === "granted") loadTracking();
     }));
     $$("[data-cookie-settings]").forEach((b) => b.addEventListener("click", () => { banner.hidden = false; $("[data-consent]", banner).focus(); }));
   }
